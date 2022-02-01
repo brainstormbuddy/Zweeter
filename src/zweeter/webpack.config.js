@@ -48,7 +48,7 @@ module.exports = {
   entry: {
     // The frontend.entrypoint points to the HTML file for this build, so we need
     // to replace the extension to `.js`.
-    index: path.join(__dirname, asset_entry).replace(/\.html$/, ".jsx"),
+    index: path.join(__dirname, asset_entry).replace(/\.html$/, ".tsx"),
   },
   devtool: isDevelopment ? "source-map" : false,
   optimization: {
@@ -77,8 +77,19 @@ module.exports = {
   // tutorial, uncomment the following lines:
   module: {
     rules: [
-      { test: /\.(js|ts)x?$/, loader: "ts-loader" }
-    ]
+      { test: /\.(js|ts)x?$/, loader: "ts-loader" },
+      {
+        // Preprocess your css files
+        // you can add additional loaders here (e.g. sass/less etc.)
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.svg$/,
+        loader: "svg-inline-loader",
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
