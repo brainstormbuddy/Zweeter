@@ -77,18 +77,8 @@ module.exports = {
   // tutorial, uncomment the following lines:
   module: {
     rules: [
-      { test: /\.(js|ts)x?$/, loader: "ts-loader" },
-      {
-        // Preprocess your css files
-        // you can add additional loaders here (e.g. sass/less etc.)
-        test: /\.css$/,
-        exclude: /node_modules/,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.svg$/,
-        loader: "svg-inline-loader",
-      },
+      { test: /\.(ts|tsx|jsx)$/, loader: "ts-loader" },
+      { test: /\.css$/, use: ["style-loader", "css-loader"] },
     ],
   },
   plugins: [

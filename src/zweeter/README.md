@@ -1,13 +1,10 @@
-# Zweeter
+# zweeter
 
-This is a dApp for twitter for Zühlke, implemented as an example to get familiar with the internet computer framework.
+Welcome to your new zweeter project and to the internet computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
 
-### Prerequisites
-* npm version v16.3.2 is explicitly required for the project to run.
+To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
 
-### How To
-
-To learn more before you start working with Zweeter, see the following documentation available online:
+To learn more before you start working with zweeter, see the following documentation available online:
 
 - [Quick Start](https://sdk.dfinity.org/docs/quickstart/quickstart-intro.html)
 - [SDK Developer Tools](https://sdk.dfinity.org/docs/developers-guide/sdk-guide.html)
@@ -23,7 +20,7 @@ dfx help
 dfx config --help
 ```
 
-### Running the project locally
+## Running the project locally
 
 If you want to test your project locally, you can use the following commands:
 
@@ -40,7 +37,6 @@ Once the job completes, your application will be available at `http://localhost:
 Additionally, if you are making frontend changes, you can start a development server with
 
 ```bash
-npm install
 npm start
 ```
 
