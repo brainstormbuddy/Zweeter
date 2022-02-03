@@ -4,6 +4,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
+const LOCAL_II_CANISTER =
+  "http://rno2w-sqaaa-aaaaa-aaacq-cai.localhost:8000/#authorize";
+
 function initCanisterEnv() {
   let localCanisters, prodCanisters;
   try {
@@ -46,6 +49,7 @@ module.exports = {
   target: "web",
   mode: isDevelopment ? "development" : "production",
   entry: {
+    
     // The frontend.entrypoint points to the HTML file for this build, so we need
     // to replace the extension to `.js`.
     index: path.join(__dirname, asset_entry).replace(/\.html$/, ".tsx"),
@@ -66,6 +70,7 @@ module.exports = {
     },
   },
   output: {
+    publicPath: '/',
     filename: "index.js",
     path: path.join(__dirname, "dist", frontendDirectory),
   },
@@ -95,8 +100,11 @@ module.exports = {
       ],
     }),
     new webpack.EnvironmentPlugin({
-      NODE_ENV: "development",
+      NODE_ENV: isDevelopment ? "development" : "production",
       ...canisterEnvVariables,
+      WHOAMI_CANISTER_ID: "rkp4c-7iaaa-aaaaa-aaaca-cai",
+      LOCAL_II_CANISTER,
+      DFX_NETWORK: process.env.DFX_NETWORK || "local"
     }),
     new webpack.ProvidePlugin({
       Buffer: [require.resolve("buffer/"), "Buffer"],

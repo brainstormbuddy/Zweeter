@@ -45,6 +45,7 @@
     "last 2 edge version"
   ],
   "dependencies": {
+    "@dfinity/auth-client": "^0.10.2",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@material-ui/styles": "^4.11.4",

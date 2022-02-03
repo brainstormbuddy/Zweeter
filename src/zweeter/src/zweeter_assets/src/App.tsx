@@ -2,6 +2,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
 import { Routes, Route } from "react-router-dom";
 import MenuBar from "./components/menubar";
+import Authed from "./Pages/authed";
 import Hello from "./Pages/hello";
 import Login from "./Pages/login";
 const theme = createTheme({
@@ -19,8 +20,8 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path="/" element={<MenuBar />}>
-          <Route index element={<Hello />} />
-          <Route path="login" element={<Login />} />
+          <Route index element={<Login />} />
+          <Route path="/authed" element={<Authed />} />
         </Route>
       </Routes>
     </ThemeProvider>

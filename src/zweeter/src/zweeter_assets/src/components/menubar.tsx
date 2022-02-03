@@ -10,10 +10,7 @@ const useStyles = makeStyles(() => ({
     marginBottom: "20px",
   },
 }));
-const pagesInit = [
-  { title: "Home", link: "/" },
-  { title: "Login", link: "/login" },
-];
+const pagesInit = [{ title: "Home", link: "/" }];
 
 export default function MenuBar() {
   const navigate = useNavigate();
