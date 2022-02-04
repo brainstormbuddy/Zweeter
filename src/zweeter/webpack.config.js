@@ -3,6 +3,12 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+const LOCAL_II_CANISTER = process.env.LOCAL_II_CANISTER;
+
+let canisters;
 
 function initCanisterEnv() {
   let localCanisters, prodCanisters;
@@ -26,6 +32,7 @@ function initCanisterEnv() {
     (process.env.NODE_ENV === "production" ? "ic" : "local");
 
   const canisterConfig = network === "local" ? localCanisters : prodCanisters;
+  canisters = canisterConfig;
 
   return Object.entries(canisterConfig).reduce((prev, current) => {
     const [canisterName, canisterDetails] = current;
@@ -66,6 +73,7 @@ module.exports = {
     },
   },
   output: {
+    publicPath: "/",
     filename: "index.js",
     path: path.join(__dirname, "dist", frontendDirectory),
   },
@@ -95,8 +103,11 @@ module.exports = {
       ],
     }),
     new webpack.EnvironmentPlugin({
-      NODE_ENV: "development",
+      NODE_ENV: isDevelopment ? "development" : "production",
       ...canisterEnvVariables,
+      WHOAMI_CANISTER_ID: canisters["whoami"].local,
+      LOCAL_II_CANISTER,
+      DFX_NETWORK: process.env.DFX_NETWORK || "local",
     }),
     new webpack.ProvidePlugin({
       Buffer: [require.resolve("buffer/"), "Buffer"],

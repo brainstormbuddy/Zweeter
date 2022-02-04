@@ -45,11 +45,13 @@
     "last 2 edge version"
   ],
   "dependencies": {
+    "@dfinity/auth-client": "^0.10.2",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@material-ui/styles": "^4.11.4",
     "@mui/material": "^5.4.0",
     "css-loader": "^6.5.1",
+    "dotenv": "^16.0.0",
     "react-router-dom": "^6.2.1",
     "style-loader": "^3.3.1"
   }
