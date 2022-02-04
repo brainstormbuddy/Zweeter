@@ -15,6 +15,11 @@ import { _SERVICE } from "../../../declarations/whoami/whoami.did";
 import handleAuthenticated from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { zweeter } from "../../../declarations/zweeter";
+import {
+  User,
+  Tweet,
+  DataFilter,
+} from "../../../declarations/zweeter/zweeter.did";
 
 export default function Authed() {
   const [authActor, setAuthActor] = useState<ActorSubclass<_SERVICE>>();
@@ -27,6 +32,27 @@ export default function Authed() {
       navigate("/");
     });
   };
+
+  async function handleClick() {
+    let user: User = {
+      name: "Achilles",
+      id: "123test",
+    };
+    await zweeter.setUser("Muriel", user);
+
+    var list = await zweeter.listUsers([]);
+    console.log(list);
+    
+    let filter: DataFilter = {
+      contains: ["e"],
+      startsWith: [],
+    };
+
+    var filtered = await zweeter.listUsers([filter]);
+    console.log(filtered);
+
+  }
+
   useEffect(() => {
     AuthClient.create().then((res) => {
       setAuthC(res);
@@ -68,6 +94,14 @@ export default function Authed() {
               <CircularProgress />
             )}
           </>
+          <Button
+            sx={{ margin: "10px 0px" }}
+            variant="contained"
+            fullWidth
+            onClick={handleClick}
+          >
+            Click Me!
+          </Button>
         </CardContent>
       </Card>
     </Container>
