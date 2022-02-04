@@ -8,8 +8,8 @@ export default function Hello() {
   const [message, setMessage] = useState("");
 
   async function doGreet() {
-    const greeting = await zweeter.greet(name);
-    setMessage(greeting);
+    // const greeting = await zweeter.greet(name);
+    // setMessage(greeting);
   }
 
   return (

@@ -14,6 +14,7 @@ import { ActorSubclass } from "@dfinity/agent";
 import { _SERVICE } from "../../../declarations/whoami/whoami.did";
 import handleAuthenticated from "../utils/auth";
 import { useNavigate } from "react-router-dom";
+import { zweeter } from "../../../declarations/zweeter";
 
 export default function Authed() {
   const [authActor, setAuthActor] = useState<ActorSubclass<_SERVICE>>();
