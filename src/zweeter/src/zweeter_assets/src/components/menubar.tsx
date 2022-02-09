@@ -12,7 +12,7 @@ import React = require("react");
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { login, logout } from "../store/authenticationSlice";
-import { AccountCircle, Login } from "@mui/icons-material/";
+import { AccountCircle } from "@mui/icons-material/";
 import { AuthClient } from "@dfinity/auth-client";
 import handleAuthenticated from "../utils/auth";
 import { ActorSubclass } from "@dfinity/agent";
@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
     flexGrow: 1,
   },
 }));
-const pagesInit = [{ title: "Home", link: "/" }];
+const pagesInit = [{ title: "Home", link: "/home" }];
 
 export default function MenuBar() {
   const navigate = useNavigate();
@@ -42,27 +42,9 @@ export default function MenuBar() {
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate("/");
-  };
-
-  const handleAuth = async () => {
-    const days = BigInt(1);
-    const hours = BigInt(24);
-    const nanoseconds = BigInt(3600000000000);
-    await authC.login({
-      onSuccess: async () => {
-        handleAuthenticated(authC).then((authed) => {
-          setAuthActor(authed);
-          navigate("/home");
-        });
-      },
-      identityProvider:
-        process.env.DFX_NETWORK === "ic"
-          ? "https://identity.ic0.app/#authorize"
-          : process.env.LOCAL_II_CANISTER,
-      // Maximum authorization expiration is 8 days
-      maxTimeToLive: days * hours * nanoseconds,
+    authC.logout().then(() => {
+      dispatch(logout());
+      navigate("/");
     });
   };
 
@@ -73,7 +55,7 @@ export default function MenuBar() {
         if (authed)
           handleAuthenticated(res).then((actor) => {
             setAuthActor(actor);
-            navigate("/");
+            navigate("/home");
           });
       });
     });

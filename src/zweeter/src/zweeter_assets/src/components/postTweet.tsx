@@ -27,6 +27,7 @@ export default function PostTweet() {
       <TextField
         multiline
         rows={4}
+        fullWidth
         placeholder="What's on your mind?"
         onChange={(event) => {
           setTweetContent(event.target.value);
