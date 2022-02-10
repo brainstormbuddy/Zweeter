@@ -13,7 +13,7 @@ const initialState: AuthState = {
   id: "",
 };
 
-export const AuthSlice = createSlice({
+export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
@@ -33,6 +33,6 @@ export const AuthSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout, setInfo } = AuthSlice.actions;
+export const { login, logout, setInfo } = authSlice.actions;
 
-export default AuthSlice.reducer;
+export default authSlice.reducer;

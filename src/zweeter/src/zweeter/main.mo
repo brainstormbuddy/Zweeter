@@ -44,7 +44,7 @@ actor Zweeter {
     type Tweet = {
         content: Text;
         id: Text;
-        userid: Text;
+        user: User;
         liked: Int;
         postedAt: Int;
     };

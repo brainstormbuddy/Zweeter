@@ -1,12 +1,12 @@
 export const idlFactory = ({ IDL }) => {
+  const User = IDL.Record({ 'id' : IDL.Text, 'name' : IDL.Text });
   const Tweet = IDL.Record({
     'id' : IDL.Text,
     'postedAt' : IDL.Int,
     'content' : IDL.Text,
-    'userid' : IDL.Text,
+    'user' : User,
     'liked' : IDL.Int,
   });
-  const User = IDL.Record({ 'id' : IDL.Text, 'name' : IDL.Text });
   const DataFilter = IDL.Record({
     'contains' : IDL.Opt(IDL.Text),
     'startsWith' : IDL.Opt(IDL.Text),

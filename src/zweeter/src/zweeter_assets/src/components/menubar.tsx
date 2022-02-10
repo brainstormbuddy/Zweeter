@@ -55,7 +55,6 @@ export default function MenuBar() {
         if (authed)
           handleAuthenticated(res).then((actor) => {
             setAuthActor(actor);
-            navigate("/home");
           });
       });
     });

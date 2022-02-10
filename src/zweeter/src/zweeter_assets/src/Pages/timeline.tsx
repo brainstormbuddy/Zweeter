@@ -1,52 +1,41 @@
-import { adaptV4Theme, Button, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import React = require("react");
 import { _SERVICE } from "../../../declarations/whoami/whoami.did";
 import { zweeter } from "../../../declarations/zweeter";
-import { User, DataFilter } from "../../../declarations/zweeter/zweeter.did";
+import { Tweet } from "../../../declarations/zweeter/zweeter.did";
 import PostTweet from "../components/postTweet";
-import { v4 } from "uuid";
+import { useCallback, useEffect, useState } from "react";
+import { useAppSelector } from "../store/hooks";
+import { useNavigate } from "react-router-dom";
+import TweetList from "../components/tweetList";
 
 export default function Timeline() {
-  async function handleClick() {
-    let user: User = {
-      name: "Achilles",
-      id: "123test",
-    };
-    await zweeter.setUser("Muriel", user);
+  const [tweets, setTweets] = useState<[String, Tweet][]>([]);
+  const navigate = useNavigate();
+  const userName = useAppSelector((state) => state.authReducer.name);
+  const updateTweets = useCallback(async () => {
+    const tweetList = await zweeter.listTweets([
+      {
+        contains: [],
+        startsWith: [],
+      },
+    ]);
+    setTweets(
+      tweetList.sort((a, b) => Number(b[1].postedAt) - Number(a[1].postedAt))
+    );
+  }, []);
 
-    var list = await zweeter.listUsers([]);
-    console.log(list);
-    var list1 = await zweeter.listTweets([]);
-    console.log(list1);
-    await zweeter.setTweet(user.name, {
-      id: v4(),
-      postedAt: BigInt(2),
-      content: "Test Tweet",
-      userid: user.id,
-      liked: BigInt(0),
-    });
-    list1 = await zweeter.listTweets([]);
-    console.log(list1);
-    let filter: DataFilter = {
-      contains: ["e"],
-      startsWith: [],
-    };
-
-    var filtered = await zweeter.listUsers([filter]);
-    console.log(filtered);
-  }
+  useEffect(() => {
+    if (userName === "") navigate("/");
+    else {
+      updateTweets();
+    }
+  }, [updateTweets, userName]);
 
   return (
     <Container maxWidth="xs">
-      <PostTweet />
-      <Button
-        sx={{ margin: "10px 0px" }}
-        variant="contained"
-        fullWidth
-        onClick={handleClick}
-      >
-        Test
-      </Button>
+      <PostTweet updateTweets={updateTweets} />
+      <TweetList tweets={tweets} />
     </Container>
   );
 }

@@ -8,6 +8,9 @@ import Timeline from "./Pages/timeline";
 import Profile from "./Pages/profile";
 import Tweet from "./Pages/tweet";
 import Authenticate from "./Pages/authenticate";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+let persistor = persistStore(store);
 const theme = createTheme({
   palette: {
     primary: {
@@ -22,14 +25,16 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-        <Routes>
-          <Route path="/" element={<MenuBar />}>
-            <Route index element={<Authenticate />} />
-            <Route path="/home" element={<Timeline />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/tweet/:id" element={<Tweet />} />
-          </Route>
-        </Routes>
+        <PersistGate loading={null} persistor={persistor}>
+          <Routes>
+            <Route path="/" element={<MenuBar />}>
+              <Route index element={<Authenticate />} />
+              <Route path="/home" element={<Timeline />} />
+              <Route path="/profile/:profileName" element={<Profile />} />
+              <Route path="/tweet/:id" element={<Tweet />} />
+            </Route>
+          </Routes>{" "}
+        </PersistGate>
       </Provider>
     </ThemeProvider>
   );

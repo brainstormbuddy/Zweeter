@@ -29,21 +29,26 @@ export default function Authenticate() {
     const days = BigInt(1);
     const hours = BigInt(24);
     const nanoseconds = BigInt(3600000000000);
-    await authC.login({
-      onSuccess: async () => {
-        handleAuthenticated(authC).then((authed) => {
-          dispatch(setInfo({ name: userName, id: v4() }));
-          setAuthActor(authed);
-          navigate("/home");
-        });
-      },
-      identityProvider:
-        process.env.DFX_NETWORK === "ic"
-          ? "https://identity.ic0.app/#authorize"
-          : process.env.LOCAL_II_CANISTER,
-      // Maximum authorization expiration is 8 days
-      maxTimeToLive: days * hours * nanoseconds,
-    });
+    if (principal) {
+      dispatch(setInfo({ name: userName, id: v4() }));
+      navigate("/home");
+    } else {
+      await authC.login({
+        onSuccess: async () => {
+          handleAuthenticated(authC).then((authed) => {
+            dispatch(setInfo({ name: userName, id: v4() }));
+            setAuthActor(authed);
+            navigate("/home");
+          });
+        },
+        identityProvider:
+          process.env.DFX_NETWORK === "ic"
+            ? "https://identity.ic0.app/#authorize"
+            : process.env.LOCAL_II_CANISTER,
+        // Maximum authorization expiration is 8 days
+        maxTimeToLive: days * hours * nanoseconds,
+      });
+    }
   };
 
   useEffect(() => {
@@ -78,6 +83,7 @@ export default function Authenticate() {
             sx={{ margin: "10px 0px" }}
             variant="contained"
             fullWidth
+            disabled={userName === ""}
             onClick={handleAuth}
           >
             Authenticate

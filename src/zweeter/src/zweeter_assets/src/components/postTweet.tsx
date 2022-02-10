@@ -5,30 +5,32 @@ import { useAppSelector } from "../store/hooks";
 import { v4 } from "uuid";
 import { useState } from "react";
 
-export default function PostTweet() {
+export default function PostTweet(props) {
   const userId = useAppSelector((state) => state.authReducer.id);
   const userName = useAppSelector((state) => state.authReducer.name);
   const [tweetContent, setTweetContent] = useState("");
 
   async function handleClick() {
-    await zweeter.setTweet(userName, {
+    const tweetID = userName + "_" + v4();
+    await zweeter.setTweet(tweetID, {
       id: v4(),
-      postedAt: BigInt(2),
+      postedAt: BigInt(Date.now()),
       content: tweetContent,
-      userid: userId,
+      user: { id: userId, name: userName },
       liked: BigInt(0),
     });
-    let list1 = await zweeter.listTweets([]);
-    console.log(list1);
+    props.updateTweets();
+    setTweetContent("");
   }
 
   return (
-    <Container maxWidth="xs">
+    <Container maxWidth="md">
       <TextField
         multiline
         rows={4}
         fullWidth
-        placeholder="What's on your mind?"
+        value={tweetContent}
+        placeholder="What's Happening?"
         onChange={(event) => {
           setTweetContent(event.target.value);
         }}

@@ -9,7 +9,7 @@ type Tweet =
    id: text;
    liked: int;
    postedAt: int;
-   userid: text;
+   user: User;
  };
 type DataFilter = 
  record {
