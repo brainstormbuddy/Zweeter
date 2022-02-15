@@ -6,17 +6,15 @@ import { useState, useContext } from "react";
 import { AppContext } from "../App";
 
 export default function PostTweet(props) {
-  const userId = useAppSelector((state) => state.authReducer.id);
-  const userName = useAppSelector((state) => state.authReducer.name);
   const [tweetContent, setTweetContent] = useState("");
-  const { actor } = useContext(AppContext);
+  const { actor, actorName } = useContext(AppContext);
   async function handleClick() {
     let id = v4();
     await actor?.setTweet(id, {
       id: id,
       postedAt: BigInt(Date.now()),
       content: tweetContent,
-      user: userName,
+      user: actorName,
       liked: BigInt(0),
     });
     props.updateTweets();

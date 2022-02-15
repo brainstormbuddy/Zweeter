@@ -7,7 +7,7 @@ import TweetList from "../components/tweetList";
 import { AppContext } from "../App";
 export default function Timeline() {
   const [tweets, setTweets] = useState<[String, Tweet][]>([]);
-  const { actor, hasLoggedIn } = useContext(AppContext);
+  const { actor, hasLoggedIn, actorName } = useContext(AppContext);
   const updateTweets = useCallback(async () => {
     const tweetList = await actor?.listMyTweets();
     setTweets(

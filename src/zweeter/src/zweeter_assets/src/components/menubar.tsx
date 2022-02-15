@@ -9,7 +9,7 @@ import {
 import { useNavigate, Outlet } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import React = require("react");
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AccountCircle } from "@mui/icons-material/";
 import { _SERVICE } from "../../../declarations/zweeter/zweeter.did";
 import { AppContext } from "../App";
@@ -30,11 +30,16 @@ export default function MenuBar() {
   const navigate = useNavigate();
   const classes = useStyles();
   const [pages, setPages] = useState(pagesInit);
-  const { hasLoggedIn, logout } = useContext(AppContext);
+  const { hasLoggedIn, logout, actor } = useContext(AppContext);
   const handleLogout = () => {
     logout();
     navigate("/");
   };
+  useEffect(() => {
+    if (actor && !hasLoggedIn) {
+      navigate("/");
+    }
+  }, [actor, hasLoggedIn]);
   return (
     <>
       <AppBar>

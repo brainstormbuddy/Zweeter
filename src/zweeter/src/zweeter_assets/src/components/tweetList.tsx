@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function TweetList(props) {
   const tweets = props.tweets;
-  const navigate = useNavigate();
   return (
     <Container maxWidth="md">
       <List sx={{ width: "100%", bgcolor: "background.paper" }}>
@@ -22,20 +21,13 @@ export default function TweetList(props) {
             <div key={tweet.id + "cont"}>
               <ListItem alignItems="flex-start" key={tweet.id}>
                 <ListItemAvatar>
-                  <Avatar
-                    sx={{ bgcolor: "secondary.main" }}
-                    onClick={() => navigate(`/profile/${tweet.user}`)}
-                  >
-                    {tweet.user}
+                  <Avatar sx={{ bgcolor: "secondary.main" }}>
+                    {tweet.user.charAt(0)}
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
                   primary={
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      onClick={() => navigate(`/profile/${tweet.user}`)}
-                    >
+                    <Typography variant="body1" color="text.primary">
                       {tweet.user}
                     </Typography>
                   }

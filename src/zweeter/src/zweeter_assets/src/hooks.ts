@@ -11,6 +11,7 @@ export function useAuthClient(props?: UseAuthClientProps) {
   const [actor, setActor] = useState<ActorSubclass<_SERVICE>>();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [hasLoggedIn, setHasLoggedIn] = useState(false);
+  const [actorName, setName] = useState("");
 
   const login = () => {
     authClient?.login({
@@ -44,6 +45,7 @@ export function useAuthClient(props?: UseAuthClientProps) {
     setHasLoggedIn(false);
   };
 
+
   useEffect(() => {
     AuthClient.create().then(async (client) => {
       const isAuthenticated = await client.isAuthenticated();
@@ -65,6 +67,8 @@ export function useAuthClient(props?: UseAuthClientProps) {
     logout,
     actor,
     hasLoggedIn,
+    actorName,
+    setName,
   };
 }
 

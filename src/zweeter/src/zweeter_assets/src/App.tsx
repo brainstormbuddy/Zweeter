@@ -34,10 +34,13 @@ export const AppContext = React.createContext<{
   logout: () => void;
   actor?: ActorSubclass<_SERVICE>;
   hasLoggedIn: boolean;
+  actorName?: string;
+  setName: (name: string) => void;
 }>({
   login: () => {},
   logout: () => {},
   hasLoggedIn: false,
+  setName: (name: string) => {},
 });
 const App = () => {
   const {
@@ -49,8 +52,9 @@ const App = () => {
     logout,
     actor,
     hasLoggedIn,
+    setName,
+    actorName,
   } = useAuthClient();
-  const identity = authClient?.getIdentity();
   return (
     <AppContext.Provider
       value={{
@@ -62,6 +66,8 @@ const App = () => {
         logout,
         actor,
         hasLoggedIn,
+        setName,
+        actorName,
       }}
     >
       <ThemeProvider theme={theme}>
