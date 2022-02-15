@@ -16,6 +16,7 @@ export interface Zweeter {
   'getTweet' : (arg_0: string) => Promise<[] | [Tweet]>,
   'getUser' : () => Promise<[] | [User]>,
   'getUserById' : (arg_0: string) => Promise<[] | [User]>,
+  'listAllTweets' : () => Promise<Array<[string, Tweet]>>,
   'listMyTweets' : () => Promise<Array<[string, Tweet]>>,
   'setTweet' : (arg_0: string, arg_1: Tweet) => Promise<undefined>,
   'setUser' : (arg_0: User) => Promise<undefined>,

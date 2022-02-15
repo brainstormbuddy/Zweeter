@@ -11,6 +11,10 @@ type Zweeter =
    getTweet: (text) -> (opt Tweet);
    getUser: () -> (opt User);
    getUserById: (text) -> (opt User) query;
+   listAllTweets: () -> (vec record {
+                               text;
+                               Tweet;
+                             });
    listMyTweets: () -> (vec record {
                               text;
                               Tweet;

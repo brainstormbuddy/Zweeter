@@ -93,6 +93,10 @@ actor class Zweeter() {
         return await _listTweets(?id);
     };
 
+    public shared (message) func listAllTweets() : async [(Text, Tweet)] {
+        return await _listTweets(null);
+    };
+
     // end of tweet store
 
     system func preupgrade() {

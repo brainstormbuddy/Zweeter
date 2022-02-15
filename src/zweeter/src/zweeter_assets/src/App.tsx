@@ -10,6 +10,10 @@ import Tweet from "./Pages/tweet";
 import Authenticate from "./Pages/authenticate";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+import { useAuthClient } from "./hooks";
+import { AuthClient } from "@dfinity/auth-client";
+import { _SERVICE } from "../../declarations/zweeter/zweeter.did";
+import { ActorSubclass } from "@dfinity/agent";
 let persistor = persistStore(store);
 const theme = createTheme({
   palette: {
@@ -21,22 +25,60 @@ const theme = createTheme({
     },
   },
 });
+export const AppContext = React.createContext<{
+  authClient?: AuthClient;
+  setAuthClient?: React.Dispatch<AuthClient>;
+  isAuthenticated?: boolean;
+  setIsAuthenticated?: React.Dispatch<React.SetStateAction<boolean>>;
+  login: () => void;
+  logout: () => void;
+  actor?: ActorSubclass<_SERVICE>;
+  hasLoggedIn: boolean;
+}>({
+  login: () => {},
+  logout: () => {},
+  hasLoggedIn: false,
+});
 const App = () => {
+  const {
+    authClient,
+    setAuthClient,
+    isAuthenticated,
+    setIsAuthenticated,
+    login,
+    logout,
+    actor,
+    hasLoggedIn,
+  } = useAuthClient();
+  const identity = authClient?.getIdentity();
   return (
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Routes>
-            <Route path="/" element={<MenuBar />}>
-              <Route index element={<Authenticate />} />
-              <Route path="/home" element={<Timeline />} />
-              <Route path="/profile/:profileName" element={<Profile />} />
-              <Route path="/tweet/:id" element={<Tweet />} />
-            </Route>
-          </Routes>{" "}
-        </PersistGate>
-      </Provider>
-    </ThemeProvider>
+    <AppContext.Provider
+      value={{
+        authClient,
+        setAuthClient,
+        isAuthenticated,
+        setIsAuthenticated,
+        login,
+        logout,
+        actor,
+        hasLoggedIn,
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Routes>
+              <Route path="/" element={<MenuBar />}>
+                <Route index element={<Authenticate />} />
+                <Route path="/home" element={<Timeline />} />
+                <Route path="/profile/:profileName" element={<Profile />} />
+                <Route path="/tweet/:id" element={<Tweet />} />
+              </Route>
+            </Routes>{" "}
+          </PersistGate>
+        </Provider>
+      </ThemeProvider>
+    </AppContext.Provider>
   );
 };
 

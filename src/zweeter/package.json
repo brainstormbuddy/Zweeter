@@ -54,6 +54,7 @@
     "@reduxjs/toolkit": "^1.7.2",
     "css-loader": "^6.5.1",
     "dotenv": "^16.0.0",
+    "local-storage": "^2.0.0",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
     "redux-persist": "^6.0.0",

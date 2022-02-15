@@ -20,6 +20,7 @@ export const idlFactory = ({ IDL }) => {
     'getTweet' : IDL.Func([IDL.Text], [IDL.Opt(Tweet)], []),
     'getUser' : IDL.Func([], [IDL.Opt(User)], []),
     'getUserById' : IDL.Func([IDL.Text], [IDL.Opt(User)], ['query']),
+    'listAllTweets' : IDL.Func([], [IDL.Vec(IDL.Tuple(IDL.Text, Tweet))], []),
     'listMyTweets' : IDL.Func([], [IDL.Vec(IDL.Tuple(IDL.Text, Tweet))], []),
     'setTweet' : IDL.Func([IDL.Text, Tweet], [], []),
     'setUser' : IDL.Func([User], [], []),

@@ -1,19 +1,18 @@
 import { Button, Container, TextField } from "@mui/material";
 import React = require("react");
-import { zweeter } from "../../../declarations/zweeter";
 import { useAppSelector } from "../store/hooks";
 import { v4 } from "uuid";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AppContext } from "../App";
 
 export default function PostTweet(props) {
   const userId = useAppSelector((state) => state.authReducer.id);
   const userName = useAppSelector((state) => state.authReducer.name);
   const [tweetContent, setTweetContent] = useState("");
-
+  const { actor } = useContext(AppContext);
   async function handleClick() {
     let id = v4();
-    const tweetID = id;
-    await zweeter.setTweet(tweetID, {
+    await actor?.setTweet(id, {
       id: id,
       postedAt: BigInt(Date.now()),
       content: tweetContent,

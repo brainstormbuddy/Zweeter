@@ -1,37 +1,28 @@
 import { Container } from "@mui/material";
 import React = require("react");
-import { zweeter } from "../../../declarations/zweeter";
 import { _SERVICE, Tweet } from "../../../declarations/zweeter/zweeter.did";
 import PostTweet from "../components/postTweet";
-import { useCallback, useEffect, useState } from "react";
-import { useAppSelector } from "../store/hooks";
-import { useNavigate } from "react-router-dom";
+import { useCallback, useContext, useEffect, useState } from "react";
 import TweetList from "../components/tweetList";
-
+import { AppContext } from "../App";
 export default function Timeline() {
   const [tweets, setTweets] = useState<[String, Tweet][]>([]);
-  const navigate = useNavigate();
-  const userName = useAppSelector((state) => state.authReducer.name);
+  const { actor, hasLoggedIn } = useContext(AppContext);
   const updateTweets = useCallback(async () => {
-    const tweetList = await zweeter.listMyTweets();
+    const tweetList = await actor?.listMyTweets();
     setTweets(
       tweetList.sort((a, b) => Number(b[1].postedAt) - Number(a[1].postedAt))
     );
-    console.log(tweetList);
-  }, []);
+  }, [actor]);
   useEffect(() => {
-    if (userName === "") navigate("/");
-    else {
-      // AuthClient.create().then((res) => {
-      //   test(res);
-      // });
+    if (actor) {
       updateTweets();
     }
-  }, [updateTweets, userName]);
+  }, [updateTweets, actor, hasLoggedIn]);
   return (
     <Container maxWidth="xs">
       <PostTweet updateTweets={updateTweets} />
-      <TweetList tweets={tweets} />
+      {tweets && <TweetList tweets={tweets} />}
     </Container>
   );
 }

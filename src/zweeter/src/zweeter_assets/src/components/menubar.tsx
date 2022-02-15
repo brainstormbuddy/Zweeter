@@ -9,14 +9,10 @@ import {
 import { useNavigate, Outlet } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import React = require("react");
-import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { login, logout } from "../store/authenticationSlice";
+import { useState, useContext } from "react";
 import { AccountCircle } from "@mui/icons-material/";
-import { AuthClient } from "@dfinity/auth-client";
-import handleAuthenticated from "../utils/auth";
-import { ActorSubclass } from "@dfinity/agent";
 import { _SERVICE } from "../../../declarations/zweeter/zweeter.did";
+import { AppContext } from "../App";
 const useStyles = makeStyles(() => ({
   toolbar: {
     height: 64,
@@ -34,39 +30,11 @@ export default function MenuBar() {
   const navigate = useNavigate();
   const classes = useStyles();
   const [pages, setPages] = useState(pagesInit);
-  const [authC, setAuthC] = useState<AuthClient>();
-  const [authActor, setAuthActor] = useState<ActorSubclass<_SERVICE>>();
-  //const principal = useAppSelector((state) => state.authReducer.principal);
-
-  const loggedIn = useAppSelector((state) => state.authReducer.loggedIn);
-  const dispatch = useAppDispatch();
-
+  const { hasLoggedIn, logout } = useContext(AppContext);
   const handleLogout = () => {
-    authC.logout().then(() => {
-      dispatch(logout());
-      navigate("/");
-    });
+    logout();
+    navigate("/");
   };
-
-  useEffect(() => {
-    AuthClient.create().then((res) => {
-      setAuthC(res);
-      res.isAuthenticated().then((authed) => {
-        if (authed)
-          handleAuthenticated(res).then((actor) => {
-            setAuthActor(actor);
-          });
-      });
-    });
-  }, []);
-
-  useEffect(() => {
-    // authActor?.whoami().then((res) => {
-    //   const principal = res.toString();
-    //   dispatch(login({ principal }));
-    // });
-  }, [authActor]);
-
   return (
     <>
       <AppBar>
@@ -84,7 +52,7 @@ export default function MenuBar() {
             </Button>
           ))}
           <div className={classes.profile}>
-            {loggedIn && (
+            {hasLoggedIn && (
               <Tooltip title={"Logout"}>
                 <IconButton size="large" onClick={handleLogout} color="inherit">
                   <AccountCircle
