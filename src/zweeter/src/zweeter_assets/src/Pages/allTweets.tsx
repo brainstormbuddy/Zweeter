@@ -8,7 +8,6 @@ import {
 import { useCallback, useContext, useEffect, useState } from "react";
 import TweetList from "../components/tweetList";
 import { AppContext } from "../App";
-import PostTweet from "../components/postTweet";
 export default function AllTweets() {
   const [tweetsWithLike, setTweetsWithLike] = useState<
     [String, Boolean, Tweet][]
@@ -35,7 +34,7 @@ export default function AllTweets() {
   const updateTweets = useCallback(async () => {
     setLoading(true);
     let [tweetList, likedTweetList] = await Promise.all([
-      actor?.listMyTweets(),
+      actor?.listAllTweets(),
       actor?.listMyLikedTweets(),
     ]);
     unifyTweets(tweetList, likedTweetList);
@@ -48,7 +47,6 @@ export default function AllTweets() {
   }, [updateTweets, actor, hasLoggedIn]);
   return (
     <Container maxWidth="xs">
-      <PostTweet updateTweets={updateTweets} />
       {tweetsWithLike ? (
         <TweetList
           tweets={tweetsWithLike}

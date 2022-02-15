@@ -1,9 +1,11 @@
 import { AuthClient } from "@dfinity/auth-client";
 import {
+  Box,
   Button,
   Card,
   CardContent,
   CardHeader,
+  CircularProgress,
   Container,
   TextField,
 } from "@mui/material";
@@ -47,10 +49,13 @@ export default function Authenticate() {
   return (
     <Container maxWidth="xs">
       <Card>
-        <CardHeader sx={{ textAlign: "center" }} title={"Authenticate"} />
+        <CardHeader
+          sx={{ textAlign: "center" }}
+          title={hasLoggedIn && !searched ? "Authenticating" : "Authenticate"}
+        />
         <CardContent>
           {hasLoggedIn ? (
-            searched && (
+            searched ? (
               <>
                 <TextField
                   label="Username"
@@ -68,6 +73,10 @@ export default function Authenticate() {
                   Set Username
                 </Button>
               </>
+            ) : (
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <CircularProgress />
+              </Box>
             )
           ) : (
             <Button

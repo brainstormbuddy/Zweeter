@@ -99,15 +99,74 @@ actor class Zweeter() {
 
     // end of tweet store
 
+    // liked tweets store
+    type LikedUserTweet = {
+        userid: Text;
+        tweetid: Text;
+    };
+    private let LikedUserTweetStore: DataStore.DataStore<LikedUserTweet> = DataStore.DataStore<LikedUserTweet>();
+    private stable var LikedUserTweetEntries : [(Text, LikedUserTweet)] = [];
+    public shared (message) func listMyLikedTweets() : async [(Text, LikedUserTweet)] {
+        let id = Principal.toText(message.caller);
+        let results: [(Text, LikedUserTweet)] = LikedUserTweetStore.list(?id);
+        return results;
+    };
+    public shared (message) func likeTweet(key: Text) : async () {
+        let id = await _constructTweetId(message.caller, key);
+        let tweet: ?Tweet = tweetStore.get(id);
+        switch (tweet) {
+                case null {
+                    return;
+                };
+                case (?tweet) {
+                    let updatedTweet: Tweet = {
+                        content = tweet.content;
+                        id = tweet.id;
+                        user = tweet.user;
+                        liked = tweet.liked + 1;
+                        postedAt = tweet.postedAt;
+                    };                    
+                    tweetStore.put(id, updatedTweet);
+                    let likedTweet : LikedUserTweet = {
+                        userid = Principal.toText(message.caller);
+                        tweetid = id;
+                    };
+                    LikedUserTweetStore.put(id, likedTweet);
+                };
+            };
+    };
+    public shared (message) func dislikeTweet(key: Text) : async () {
+        let id = await _constructTweetId(message.caller, key);
+        let tweet: ?Tweet = tweetStore.get(id);
+        switch (tweet) {
+                case null {
+                    return;
+                };
+                case (?tweet) {
+                    let updatedTweet: Tweet = {
+                        content = tweet.content;
+                        id = tweet.id;
+                        user = tweet.user;
+                        liked = tweet.liked - 1;
+                        postedAt = tweet.postedAt;
+                    };                    
+                    tweetStore.put(id, updatedTweet);
+                    let entry: ?LikedUserTweet = LikedUserTweetStore.del(id);
+                };
+            };
+    };
+    // end of liked user tweets store
     system func preupgrade() {
         userEntries := Iter.toArray(userStore.preupgrade().entries());
         tweetEntries := Iter.toArray(tweetStore.preupgrade().entries());
+        LikedUserTweetEntries := Iter.toArray(LikedUserTweetStore.preupgrade().entries());
     };
-
     system func postupgrade() {
         userStore.postupgrade(userEntries);
         userEntries := [];
         tweetStore.postupgrade(tweetEntries);
         tweetEntries := [];
+        LikedUserTweetStore.postupgrade(LikedUserTweetEntries);
+        LikedUserTweetEntries := [];
     };
 };

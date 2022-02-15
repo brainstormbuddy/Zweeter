@@ -4,9 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import MenuBar from "./components/menubar";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
-import Timeline from "./Pages/timeline";
 import Profile from "./Pages/profile";
-import Tweet from "./Pages/tweet";
 import Authenticate from "./Pages/authenticate";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
@@ -14,6 +12,7 @@ import { useAuthClient } from "./hooks";
 import { AuthClient } from "@dfinity/auth-client";
 import { _SERVICE } from "../../declarations/zweeter/zweeter.did";
 import { ActorSubclass } from "@dfinity/agent";
+import AllTweets from "./Pages/allTweets";
 let persistor = persistStore(store);
 const theme = createTheme({
   palette: {
@@ -76,9 +75,8 @@ const App = () => {
             <Routes>
               <Route path="/" element={<MenuBar />}>
                 <Route index element={<Authenticate />} />
-                <Route path="/home" element={<Timeline />} />
-                <Route path="/profile/:profileName" element={<Profile />} />
-                <Route path="/tweet/:id" element={<Tweet />} />
+                <Route path="/home" element={<Profile />} />
+                <Route path="/timeline" element={<AllTweets />} />
               </Route>
             </Routes>{" "}
           </PersistGate>

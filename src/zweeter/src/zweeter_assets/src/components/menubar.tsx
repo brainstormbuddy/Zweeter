@@ -24,7 +24,10 @@ const useStyles = makeStyles(() => ({
     flexGrow: 1,
   },
 }));
-const pagesInit = [{ title: "Home", link: "/home" }];
+const pagesInit = [
+  { title: "Home", link: "/home" },
+  { title: "All Tweets", link: "/timeline" },
+];
 
 export default function MenuBar() {
   const navigate = useNavigate();
