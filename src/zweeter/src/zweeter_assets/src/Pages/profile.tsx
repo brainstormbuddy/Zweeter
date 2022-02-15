@@ -1,6 +1,5 @@
 import { Container } from "@mui/material";
 import React = require("react");
-import { _SERVICE } from "../../../declarations/whoami/whoami.did";
 import { zweeter } from "../../../declarations/zweeter";
 import { Tweet } from "../../../declarations/zweeter/zweeter.did";
 import { useCallback, useEffect, useState } from "react";
@@ -13,12 +12,7 @@ export default function Profile() {
   const urlParams = useParams();
   const profileName = urlParams.profileName || "";
   const updateTweets = useCallback(async () => {
-    const tweetList = await zweeter.listTweets([
-      {
-        contains: [],
-        startsWith: [profileName],
-      },
-    ]);
+    const tweetList = await zweeter.listMyTweets();
     setTweets(
       tweetList.sort((a, b) => Number(b[1].postedAt) - Number(a[1].postedAt))
     );

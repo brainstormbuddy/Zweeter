@@ -3,17 +3,7 @@ import HashMap "mo:base/HashMap";
 import Iter "mo:base/Iter";
 import Array "mo:base/Array";
 
-// https://levelup.gitconnected.com/a-simple-keyval-store-implemented-in-motoko-f8ba5af43618
-// this will be the basis for our data model.
-// the key will always start with the current userId and then a random identifier should be added
-
-
 module {
-
-    public type DataFilter = {
-        startsWith: ?Text;
-        contains: ?Text;
-    };
 
     public class DataStore<T>() {
 
@@ -28,17 +18,6 @@ module {
                 };
                 case (?startsWith) {
                     return Text.startsWith(key, #text startsWith);
-                };
-            };
-        };
-
-        private func keyContains(key: Text, contains: ?Text): Bool {
-            switch (contains) {
-                case null {
-                    return true;
-                };
-                case (?contains) {
-                    return Text.contains(key, #text contains);
                 };
             };
         };
@@ -64,7 +43,7 @@ module {
             return entry;
         };
 
-        public func list(filter: ?DataFilter): [(Text, T)] {
+        public func list(filter: ?Text): [(Text, T)] {
             let entries: Iter.Iter<(Text, T)> = data.entries();
 
             switch (filter) {
@@ -74,13 +53,12 @@ module {
                 case (?filter) {
                     let keyValues: [(Text, T)] = Iter.toArray(entries);
 
-                    let {startsWith; contains} = filter;
+                    let startsWith = ?filter;
 
                     let values: [(Text, T)] = 
                                 Array.mapFilter<(Text, T), (Text, T)>
                     (keyValues, func ((key: Text, value: T)) : ?(Text, T) {
-                        if (keyStartsWith(key, startsWith) and 
-                            keyContains(key, contains)) {
+                        if (keyStartsWith(key, startsWith)) {
                             return ?(key, value);
                         };
 

@@ -1,3 +1,23 @@
+type Zweeter = 
+ service {
+   _constructTweetId: (principal, text) -> (text);
+   _getTweetById: (text) -> (opt Tweet) query;
+   _listTweets: (opt text) -> (vec record {
+                                     text;
+                                     Tweet;
+                                   }) query;
+   delTweet: (text) -> ();
+   delUser: () -> ();
+   getTweet: (text) -> (opt Tweet);
+   getUser: () -> (opt User);
+   getUserById: (text) -> (opt User) query;
+   listMyTweets: () -> (vec record {
+                              text;
+                              Tweet;
+                            });
+   setTweet: (text, Tweet) -> ();
+   setUser: (User) -> ();
+ };
 type User = 
  record {
    id: text;
@@ -9,26 +29,6 @@ type Tweet =
    id: text;
    liked: int;
    postedAt: int;
-   user: User;
+   user: text;
  };
-type DataFilter = 
- record {
-   contains: opt text;
-   startsWith: opt text;
- };
-service : {
-  delTweet: (text) -> ();
-  delUser: (text) -> ();
-  getTweet: (text) -> (opt Tweet) query;
-  getUser: (text) -> (opt User) query;
-  listTweets: (opt DataFilter) -> (vec record {
-                                         text;
-                                         Tweet;
-                                       }) query;
-  listUsers: (opt DataFilter) -> (vec record {
-                                        text;
-                                        User;
-                                      }) query;
-  setTweet: (text, Tweet) -> ();
-  setUser: (text, User) -> ();
-}
+service : () -> Zweeter

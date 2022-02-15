@@ -15,7 +15,7 @@ import { v4 } from "uuid";
 import { login, setInfo } from "../store/authenticationSlice";
 import handleAuthenticated from "../utils/auth";
 import { ActorSubclass } from "@dfinity/agent";
-import { _SERVICE } from "../../../declarations/whoami/whoami.did";
+import { _SERVICE } from "../../../declarations/zweeter/zweeter.did";
 
 export default function Authenticate() {
   const [authC, setAuthC] = useState<AuthClient>();
@@ -62,10 +62,10 @@ export default function Authenticate() {
   }, []);
 
   useEffect(() => {
-    authActor?.whoami().then((res) => {
-      const principal = res.toString();
-      dispatch(login({ principal }));
-    });
+    // authActor?.whoami().then((res) => {
+    //   const principal = res.toString();
+    //   dispatch(login({ principal }));
+    // });
   }, [authActor]);
   return (
     <Container maxWidth="xs">

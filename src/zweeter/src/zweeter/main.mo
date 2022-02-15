@@ -1,6 +1,8 @@
-import Iter "mo:base/Iter";
 import Int = "mo:base/Int";
+import Iter "mo:base/Iter";
 import Time = "mo:base/Time";
+import Principal "mo:base/Principal";
+
 import DataStore "./store";
 
 // https://levelup.gitconnected.com/a-simple-keyval-store-implemented-in-motoko-f8ba5af43618
@@ -9,7 +11,7 @@ import DataStore "./store";
 // for example we set the user with setUser("wr2vh-ou7gv-cq623-6oxpi-2x3bp-k3hbl-5zhvf-66p3h-upq62-pcmde-fqe_abbcddeff", USERDATA)
 // and then we can use the listUsers method to query user data by keyStartsWith(USERID)
 
-actor Zweeter {
+actor class Zweeter() {
 
     // user store
     type User = {
@@ -19,22 +21,26 @@ actor Zweeter {
     private let userStore: DataStore.DataStore<User> = DataStore.DataStore<User>();
     private stable var userEntries : [(Text, User)] = [];
 
-    public query func getUser(key: Text) : async (?User) {
-        let entry: ?User = userStore.get(key);
+    public shared (message) func getUser() : async (?User) {
+        let id = Principal.toText(message.caller);
+        return await getUserById(id);        
+    };
+
+    public shared (message) func delUser() : async () {
+        let id = Principal.toText(message.caller);
+        let entry: ?User =userStore.del(id);
+    };
+
+    public shared (message) func setUser(data: User) : async () {
+        let id = Principal.toText(message.caller);
+        userStore.put(id, data);
+    };
+
+    // those should be private but it is not yet supported
+
+    public query func getUserById(id: Text) : async (?User) {
+        let entry: ?User = userStore.get(id);
         return entry;
-    };
-
-    public func setUser(key: Text, data: User) : async () {
-        userStore.put(key, data);
-    };
-
-    public func delUser(key: Text) : async () {
-        let entry: ?User = userStore.del(key);
-    };
-
-    public query func listUsers(filter: ?DataStore.DataFilter) : async [(Text, User)] {
-        let results: [(Text, User)] = userStore.list(filter);
-        return results;
     };
 
     // end of user store
@@ -44,29 +50,47 @@ actor Zweeter {
     type Tweet = {
         content: Text;
         id: Text;
-        user: User;
+        user: Text;
         liked: Int;
         postedAt: Int;
     };
     private let tweetStore: DataStore.DataStore<Tweet> = DataStore.DataStore<Tweet>();
     private stable var tweetEntries : [(Text, Tweet)] = [];
 
-    public query func getTweet(key: Text) : async (?Tweet) {
-        let entry: ?Tweet = tweetStore.get(key);
+    public shared (message) func getTweet(key: Text) : async (?Tweet) {
+        let id = await _constructTweetId(message.caller, key);
+        return await _getTweetById(id);
+    };
+
+    public shared (message) func setTweet(key: Text, data: Tweet) : async () {
+        let id = await _constructTweetId(message.caller, key);
+        tweetStore.put(id, data);
+    };
+
+    public shared (message) func delTweet(key: Text) : async () {
+        let id = await _constructTweetId(message.caller, key);
+        let entry: ?Tweet = tweetStore.del(id);
+    };
+
+    public func _constructTweetId(caller: Principal, key: Text): async Text {
+        let id = Principal.toText(caller);
+        let temp = "" # id # "-" # key # "";
+        return temp;
+    };
+
+    public query func _getTweetById(id: Text) : async (?Tweet) {
+        let entry: ?Tweet = tweetStore.get(id);
         return entry;
     };
 
-    public func setTweet(key: Text, data: Tweet) : async () {
-        tweetStore.put(key, data);
-    };
-
-    public func delTweet(key: Text) : async () {
-        let entry: ?Tweet = tweetStore.del(key);
-    };
-
-    public query func listTweets(filter: ?DataStore.DataFilter) : async [(Text, Tweet)] {
+    public query func _listTweets(filter: ?Text) : async [(Text, Tweet)] {
         let results: [(Text, Tweet)] = tweetStore.list(filter);
         return results;
+    };
+
+    public shared (message) func listMyTweets() : async [(Text, Tweet)] {
+        let id = Principal.toText(message.caller);
+        return await _listTweets(?id);
     };
 
     // end of tweet store

@@ -11,12 +11,13 @@ export default function PostTweet(props) {
   const [tweetContent, setTweetContent] = useState("");
 
   async function handleClick() {
-    const tweetID = userName + "_" + v4();
+    let id = v4();
+    const tweetID = id;
     await zweeter.setTweet(tweetID, {
-      id: v4(),
+      id: id,
       postedAt: BigInt(Date.now()),
       content: tweetContent,
-      user: { id: userId, name: userName },
+      user: userName,
       liked: BigInt(0),
     });
     props.updateTweets();

@@ -16,7 +16,7 @@ import { AccountCircle } from "@mui/icons-material/";
 import { AuthClient } from "@dfinity/auth-client";
 import handleAuthenticated from "../utils/auth";
 import { ActorSubclass } from "@dfinity/agent";
-import { _SERVICE } from "../../../declarations/whoami/whoami.did";
+import { _SERVICE } from "../../../declarations/zweeter/zweeter.did";
 const useStyles = makeStyles(() => ({
   toolbar: {
     height: 64,
@@ -61,10 +61,10 @@ export default function MenuBar() {
   }, []);
 
   useEffect(() => {
-    authActor?.whoami().then((res) => {
-      const principal = res.toString();
-      dispatch(login({ principal }));
-    });
+    // authActor?.whoami().then((res) => {
+    //   const principal = res.toString();
+    //   dispatch(login({ principal }));
+    // });
   }, [authActor]);
 
   return (

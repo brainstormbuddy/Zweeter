@@ -24,9 +24,9 @@ export default function TweetList(props) {
                 <ListItemAvatar>
                   <Avatar
                     sx={{ bgcolor: "secondary.main" }}
-                    onClick={() => navigate(`/profile/${tweet.user.name}`)}
+                    onClick={() => navigate(`/profile/${tweet.user}`)}
                   >
-                    {tweet.user.name[0]}
+                    {tweet.user}
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
@@ -34,9 +34,9 @@ export default function TweetList(props) {
                     <Typography
                       variant="body1"
                       color="text.primary"
-                      onClick={() => navigate(`/profile/${tweet.user.name}`)}
+                      onClick={() => navigate(`/profile/${tweet.user}`)}
                     >
-                      {tweet.user.name}
+                      {tweet.user}
                     </Typography>
                   }
                   secondary={
