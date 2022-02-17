@@ -21,16 +21,7 @@ export default function Authenticate() {
   const { hasLoggedIn, login, actorName, setName, actor } =
     useContext(AppContext);
   const [username, setUsername] = useState("");
-  const [searched, setSearched] = useState(false);
 
-  const getUser = async () => {
-    const user = await actor?.getUser();
-    if (user[0]) {
-      setName(user[0].name);
-      navigate("/home");
-    }
-    setSearched(true);
-  };
   const setUser = () => {
     if (username !== "") {
       const id = v4();
@@ -42,20 +33,17 @@ export default function Authenticate() {
   };
 
   useEffect(() => {
-    if (hasLoggedIn) {
-      getUser();
+    if (hasLoggedIn && actorName !== "" && actorName) {
+      navigate("/home");
     }
   }, [hasLoggedIn, actorName]);
   return (
     <Container maxWidth="xs">
       <Card>
-        <CardHeader
-          sx={{ textAlign: "center" }}
-          title={hasLoggedIn && !searched ? "Authenticating" : "Authenticate"}
-        />
+        <CardHeader sx={{ textAlign: "center" }} title={"Authenticate"} />
         <CardContent>
           {hasLoggedIn ? (
-            searched ? (
+            actorName === "" ? (
               <>
                 <TextField
                   label="Username"

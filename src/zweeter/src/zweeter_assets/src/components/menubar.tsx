@@ -26,23 +26,29 @@ const useStyles = makeStyles(() => ({
 }));
 const pagesInit = [
   { title: "Home", link: "/home" },
-  { title: "All Tweets", link: "/timeline" },
+  { title: "All Zweets", link: "/timeline" },
 ];
 
 export default function MenuBar() {
   const navigate = useNavigate();
   const classes = useStyles();
-  const [pages, setPages] = useState(pagesInit);
-  const { hasLoggedIn, logout, actor, actorName } = useContext(AppContext);
+  const [pages, setPages] = useState([]);
+  const { hasLoggedIn, logout, actorName } = useContext(AppContext);
   const handleLogout = () => {
     logout();
+    setPages([]);
     navigate("/");
   };
+
   useEffect(() => {
-    if (actor && !hasLoggedIn) {
+    if (actorName && actorName !== "") setPages(pagesInit);
+  }, [actorName]);
+
+  useEffect(() => {
+    if (!hasLoggedIn) {
       navigate("/");
     }
-  }, [actor, hasLoggedIn]);
+  }, [hasLoggedIn]);
   return (
     <>
       <AppBar>

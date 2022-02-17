@@ -39,7 +39,7 @@ export default function PostTweet(props) {
         fullWidth
         onClick={handleClick}
       >
-        Tweet
+        Zweet
       </Button>
     </Container>
   );

@@ -11,7 +11,7 @@ export function useAuthClient(props?: UseAuthClientProps) {
   const [actor, setActor] = useState<ActorSubclass<_SERVICE>>();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [hasLoggedIn, setHasLoggedIn] = useState(false);
-  const [actorName, setName] = useState("");
+  const [actorName, setName] = useState<string>(null);
 
   const login = () => {
     authClient?.login({
@@ -29,13 +29,18 @@ export function useAuthClient(props?: UseAuthClientProps) {
     });
   };
 
-  const initActor = () => {
+  const initActor = async () => {
+    const identity = await authClient?.getIdentity();
     const actor = createActor(canisterId as string, {
       agentOptions: {
-        identity: authClient?.getIdentity(),
+        identity
       },
     });
     setActor(actor);
+    const user = await actor?.getUser();
+    if (user[0]) {
+      setName(user[0].name);
+    } else setName("");
   };
 
   const logout = () => {
@@ -43,8 +48,8 @@ export function useAuthClient(props?: UseAuthClientProps) {
     setIsAuthenticated(false);
     setActor(undefined);
     setHasLoggedIn(false);
+    setName(null);
   };
-
 
   useEffect(() => {
     AuthClient.create().then(async (client) => {
@@ -55,7 +60,12 @@ export function useAuthClient(props?: UseAuthClientProps) {
   }, []);
 
   useEffect(() => {
-    if (isAuthenticated) initActor();
+    if (isAuthenticated) {
+      initActor();
+      setTimeout(() => {
+        setHasLoggedIn(true);
+      }, 100);
+    }
   }, [isAuthenticated]);
 
   return {
@@ -71,4 +81,3 @@ export function useAuthClient(props?: UseAuthClientProps) {
     setName,
   };
 }
-
