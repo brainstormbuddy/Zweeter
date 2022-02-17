@@ -1,6 +1,7 @@
 type Zweeter = 
  service {
    _constructTweetId: (principal, text) -> (text);
+   _constructTweetIdByText: (text, text) -> (text);
    _getTweetById: (text) -> (opt Tweet) query;
    _listTweets: (opt text) -> (vec record {
                                      text;
@@ -8,11 +9,11 @@ type Zweeter =
                                    }) query;
    delTweet: (text) -> ();
    delUser: () -> ();
-   dislikeTweet: (text) -> ();
+   dislikeTweet: (text, text) -> ();
    getTweet: (text) -> (opt Tweet);
    getUser: () -> (opt User);
    getUserById: (text) -> (opt User) query;
-   likeTweet: (text) -> ();
+   likeTweet: (text, text) -> ();
    listAllTweets: () -> (vec record {
                                text;
                                Tweet;
@@ -40,6 +41,7 @@ type Tweet =
    liked: int;
    postedAt: int;
    user: text;
+   userid: text;
  };
 type LikedUserTweet = 
  record {

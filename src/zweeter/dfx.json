@@ -1,15 +1,11 @@
 {
   "canisters": {
-    "whoami": {
-      "main": "src/whoami/main.mo",
-      "type": "motoko"
-    },
     "zweeter": {
       "main": "src/zweeter/main.mo",
       "type": "motoko"
     },
     "zweeter_assets": {
-      "dependencies": ["zweeter","whoami"],
+      "dependencies": ["zweeter"],
       "frontend": {
         "entrypoint": "src/zweeter_assets/src/index.html"
       },

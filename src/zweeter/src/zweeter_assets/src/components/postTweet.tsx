@@ -1,6 +1,5 @@
 import { Button, Container, TextField } from "@mui/material";
 import React = require("react");
-import { useAppSelector } from "../store/hooks";
 import { v4 } from "uuid";
 import { useState, useContext } from "react";
 import { AppContext } from "../App";
@@ -15,6 +14,7 @@ export default function PostTweet(props) {
       postedAt: BigInt(Date.now()),
       content: tweetContent,
       user: actorName,
+      userid: "",
       liked: BigInt(0),
     });
     props.updateTweets();

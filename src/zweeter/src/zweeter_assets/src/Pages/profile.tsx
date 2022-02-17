@@ -38,6 +38,7 @@ export default function AllTweets() {
       actor?.listMyTweets(),
       actor?.listMyLikedTweets(),
     ]);
+    console.log(likedTweetList, tweetList);
     unifyTweets(tweetList, likedTweetList);
     setLoading(false);
   }, [actor]);

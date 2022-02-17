@@ -24,12 +24,13 @@ export default function TweetList(props) {
 
   const { actor } = useContext(AppContext);
 
-  const likeTweet = async (tweetID: string) => {
-    await actor?.likeTweet(tweetID);
+  const likeTweet = async (tweetID: string, userid: string) => {
+    console.log(tweetID, userid);
+    await actor?.likeTweet(tweetID, userid);
     props.updateTweets();
   };
-  const dislikeTweet = async (tweetID: string) => {
-    await actor?.dislikeTweet(tweetID);
+  const dislikeTweet = async (tweetID: string, userid: string) => {
+    await actor?.dislikeTweet(tweetID, userid);
     props.updateTweets();
   };
   return (
@@ -86,7 +87,7 @@ export default function TweetList(props) {
                         <IconButton
                           color="primary"
                           onClick={() => {
-                            dislikeTweet(tweet.id);
+                            dislikeTweet(tweet.id, tweet.userid);
                           }}
                           sx={{ padding: 0 }}
                         >
@@ -98,7 +99,7 @@ export default function TweetList(props) {
                         <IconButton
                           color="primary"
                           onClick={() => {
-                            likeTweet(tweet.id);
+                            likeTweet(tweet.id, tweet.userid);
                           }}
                           sx={{ padding: 0 }}
                         >

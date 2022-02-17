@@ -33,7 +33,7 @@ export default function MenuBar() {
   const navigate = useNavigate();
   const classes = useStyles();
   const [pages, setPages] = useState(pagesInit);
-  const { hasLoggedIn, logout, actor } = useContext(AppContext);
+  const { hasLoggedIn, logout, actor, actorName } = useContext(AppContext);
   const handleLogout = () => {
     logout();
     navigate("/");
@@ -61,7 +61,7 @@ export default function MenuBar() {
           ))}
           <div className={classes.profile}>
             {hasLoggedIn && (
-              <Tooltip title={"Logout"}>
+              <Tooltip title={actorName}>
                 <IconButton size="large" onClick={handleLogout} color="inherit">
                   <AccountCircle
                     sx={{

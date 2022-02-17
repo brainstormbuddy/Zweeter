@@ -105,7 +105,6 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       NODE_ENV: isDevelopment ? "development" : "production",
       ...canisterEnvVariables,
-      WHOAMI_CANISTER_ID: canisters["whoami"].local,
       LOCAL_II_CANISTER,
       DFX_NETWORK: process.env.DFX_NETWORK || "local",
     }),

@@ -3,6 +3,7 @@ export const idlFactory = ({ IDL }) => {
     'id' : IDL.Text,
     'postedAt' : IDL.Int,
     'content' : IDL.Text,
+    'userid' : IDL.Text,
     'user' : IDL.Text,
     'liked' : IDL.Int,
   });
@@ -13,6 +14,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const Zweeter = IDL.Service({
     '_constructTweetId' : IDL.Func([IDL.Principal, IDL.Text], [IDL.Text], []),
+    '_constructTweetIdByText' : IDL.Func([IDL.Text, IDL.Text], [IDL.Text], []),
     '_getTweetById' : IDL.Func([IDL.Text], [IDL.Opt(Tweet)], ['query']),
     '_listTweets' : IDL.Func(
         [IDL.Opt(IDL.Text)],
@@ -21,11 +23,11 @@ export const idlFactory = ({ IDL }) => {
       ),
     'delTweet' : IDL.Func([IDL.Text], [], []),
     'delUser' : IDL.Func([], [], []),
-    'dislikeTweet' : IDL.Func([IDL.Text], [], []),
+    'dislikeTweet' : IDL.Func([IDL.Text, IDL.Text], [], []),
     'getTweet' : IDL.Func([IDL.Text], [IDL.Opt(Tweet)], []),
     'getUser' : IDL.Func([], [IDL.Opt(User)], []),
     'getUserById' : IDL.Func([IDL.Text], [IDL.Opt(User)], ['query']),
-    'likeTweet' : IDL.Func([IDL.Text], [], []),
+    'likeTweet' : IDL.Func([IDL.Text, IDL.Text], [], []),
     'listAllTweets' : IDL.Func([], [IDL.Vec(IDL.Tuple(IDL.Text, Tweet))], []),
     'listMyLikedTweets' : IDL.Func(
         [],
