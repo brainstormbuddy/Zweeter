@@ -11,25 +11,23 @@ import { AppContext } from "../App";
 import PostTweet from "../components/postTweet";
 export default function AllTweets() {
   const [tweetsWithLike, setTweetsWithLike] = useState<
-    [String, Boolean, Tweet][]
+    [string, Tweet, Boolean][]
   >([]);
   const [loading, setLoading] = useState(true);
   const { actor, hasLoggedIn } = useContext(AppContext);
   const unifyTweets = (
-    tweetList: [String, Tweet][],
-    likedTweetList: [String, LikedUserTweet][]
+    tweetList: [string, Tweet][],
+    likedTweetList: [string, LikedUserTweet][]
   ) => {
-    const list: [String, Boolean, Tweet][] = [];
-    const collection = new Map(likedTweetList);
+    const tweetsWithLike: [string, Tweet, Boolean][] = [];
+    const collection = new Map(likedTweetList.map((i) => [i[1].tweetid, i[0]]));
     tweetList.map((tweet) => {
-      if (collection.get(tweet[0])) {
-        list.push([tweet[0], true, tweet[1]]);
-      } else {
-        list.push([tweet[0], false, tweet[1]]);
-      }
+      tweetsWithLike.push([...tweet, !!collection.get(tweet[0])]);
     });
     setTweetsWithLike(
-      list.sort((a, b) => Number(b[2].postedAt) - Number(a[2].postedAt))
+      tweetsWithLike.sort(
+        (a, b) => Number(b[1].postedAt) - Number(a[1].postedAt)
+      )
     );
   };
   const updateTweets = useCallback(async () => {
@@ -38,7 +36,6 @@ export default function AllTweets() {
       actor?.listMyTweets(),
       actor?.listMyLikedTweets(),
     ]);
-    console.log(likedTweetList, tweetList);
     unifyTweets(tweetList, likedTweetList);
     setLoading(false);
   }, [actor]);

@@ -61,17 +61,24 @@ export default function MenuBar() {
           ))}
           <div className={classes.profile}>
             {hasLoggedIn && (
-              <Tooltip title={actorName}>
-                <IconButton size="large" onClick={handleLogout} color="inherit">
-                  <AccountCircle
-                    sx={{
-                      color: "#FFF",
-                      fontSize: "1.2em",
-                      marginRight: "10px",
-                    }}
-                  />
-                </IconButton>
-              </Tooltip>
+              <>
+                <Typography sx={{ marginTop: "20px" }}>{actorName}</Typography>
+                <Tooltip title="logout">
+                  <IconButton
+                    size="large"
+                    onClick={handleLogout}
+                    color="inherit"
+                  >
+                    <AccountCircle
+                      sx={{
+                        color: "#FFF",
+                        fontSize: "1.2em",
+                        marginRight: "10px",
+                      }}
+                    />
+                  </IconButton>
+                </Tooltip>
+              </>
             )}
           </div>
         </Toolbar>

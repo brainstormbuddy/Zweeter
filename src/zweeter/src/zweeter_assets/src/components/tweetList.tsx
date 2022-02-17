@@ -20,12 +20,8 @@ import { AppContext } from "../App";
 import { useContext, useEffect } from "react";
 export default function TweetList(props) {
   const tweets = props.tweets;
-  useEffect(() => {}, [tweets]);
-
   const { actor } = useContext(AppContext);
-
   const likeTweet = async (tweetID: string, userid: string) => {
-    console.log(tweetID, userid);
     await actor?.likeTweet(tweetID, userid);
     props.updateTweets();
   };
@@ -41,7 +37,7 @@ export default function TweetList(props) {
         </Box>
       ) : (
         <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-          {tweets.map(([id, liked, tweet]) => {
+          {tweets.map(([id, tweet, liked]) => {
             return (
               <div key={tweet.id + "cont"}>
                 <ListItem alignItems="flex-start" key={tweet.id} sx={{ pb: 0 }}>
