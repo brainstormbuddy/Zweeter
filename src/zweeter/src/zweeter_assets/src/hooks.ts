@@ -45,6 +45,7 @@ export function useAuthClient(props?: UseAuthClientProps) {
 
   const logout = () => {
     clear();
+    authClient.logout();
     setIsAuthenticated(false);
     setActor(undefined);
     setHasLoggedIn(false);

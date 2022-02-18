@@ -24,11 +24,26 @@ dfx config --help
 
 If you want to test your project locally, you can use the following commands:
 
+**(if you run into problems, remove all the .dfx folders and start over)**
+
 ```bash
+
+#cleanup
+cd src
+rm -rf */.dfx
+
 # Starts the replica, running in the background
+cd zweeter
 dfx start --background
 
+# Starts the internet identity
+cd ..
+cd internet-identity
+II_ENV=development dfx deploy --no-wallet --argument '(null)'
+
 # Deploys your canisters to the replica and generates your candid interface
+cd ..
+cd zweeter
 dfx deploy
 ```
 

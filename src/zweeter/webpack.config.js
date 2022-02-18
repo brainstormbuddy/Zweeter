@@ -6,9 +6,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-const LOCAL_II_CANISTER = process.env.LOCAL_II_CANISTER;
-
-let canisters;
+const LOCAL_II_CANISTER = process.env.LOCAL_II_CANISTER ?? "";
 
 function initCanisterEnv() {
   let localCanisters, prodCanisters;
