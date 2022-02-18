@@ -1,9 +1,9 @@
-import { ActorSubclass, Identity } from "@dfinity/agent";
+import { ActorSubclass } from "@dfinity/agent";
 import { AuthClient } from "@dfinity/auth-client";
 import { useState, useEffect } from "react";
 import { createActor, canisterId } from "../../declarations/zweeter";
 import { _SERVICE } from "../../declarations/zweeter/zweeter.did";
-import { clear, get, remove, set } from "local-storage";
+import { clear } from "local-storage";
 
 type UseAuthClientProps = {};
 export function useAuthClient(props?: UseAuthClientProps) {
@@ -28,15 +28,19 @@ export function useAuthClient(props?: UseAuthClientProps) {
       },
     });
   };
-
   const initActor = async () => {
     const identity = await authClient?.getIdentity();
     const actor = createActor(canisterId as string, {
       agentOptions: {
-        identity
+        identity,
       },
     });
     setActor(actor);
+    setUser(actor);
+  };
+
+  const setUser = async (actor) => {
+    setHasLoggedIn(true);
     const user = await actor?.getUser();
     if (user[0]) {
       setName(user[0].name);
@@ -49,22 +53,20 @@ export function useAuthClient(props?: UseAuthClientProps) {
     setActor(undefined);
     setHasLoggedIn(false);
     setName(null);
+    authClient?.logout();
   };
 
   useEffect(() => {
     AuthClient.create().then(async (client) => {
       const isAuthenticated = await client.isAuthenticated();
       setAuthClient(client);
-      setIsAuthenticated(true);
+      setIsAuthenticated(isAuthenticated);
     });
   }, []);
 
   useEffect(() => {
     if (isAuthenticated) {
       initActor();
-      setTimeout(() => {
-        setHasLoggedIn(true);
-      }, 100);
     }
   }, [isAuthenticated]);
 
