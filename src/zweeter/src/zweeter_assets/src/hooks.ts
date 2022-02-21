@@ -2,13 +2,20 @@ import { ActorSubclass } from "@dfinity/agent";
 import { AuthClient } from "@dfinity/auth-client";
 import { useState, useEffect } from "react";
 import { createActor, canisterId } from "../../declarations/zweeter";
+import {
+  createActor as createInvoiceActor,
+  canisterId as invoiceCanisterId,
+} from "../../invoice_canister/test/e2e/src/declarations/invoice";
 import { _SERVICE } from "../../declarations/zweeter/zweeter.did";
+import { _SERVICE as _INVOICESERVICE } from "../../invoice_canister/test/e2e/src/declarations/invoice/invoice.did";
 import { clear } from "local-storage";
 
 type UseAuthClientProps = {};
 export function useAuthClient(props?: UseAuthClientProps) {
   const [authClient, setAuthClient] = useState<AuthClient>();
   const [actor, setActor] = useState<ActorSubclass<_SERVICE>>();
+  const [invoiceActor, setInvoiceActor] =
+    useState<ActorSubclass<_INVOICESERVICE>>();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [hasLoggedIn, setHasLoggedIn] = useState(false);
   const [actorName, setName] = useState<string>(null);
@@ -37,6 +44,13 @@ export function useAuthClient(props?: UseAuthClientProps) {
     });
     setActor(actor);
     setUser(actor);
+    const invoiceActor = createInvoiceActor(invoiceCanisterId as string, {
+      agentOptions: {
+        identity,
+      },
+    });
+    console.log(invoiceActor);
+    setInvoiceActor(invoiceActor);
   };
 
   const setUser = async (actor) => {
@@ -78,6 +92,7 @@ export function useAuthClient(props?: UseAuthClientProps) {
     login,
     logout,
     actor,
+    invoiceActor,
     hasLoggedIn,
     actorName,
     setName,

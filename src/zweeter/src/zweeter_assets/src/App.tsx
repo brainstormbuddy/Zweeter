@@ -7,6 +7,7 @@ import Authenticate from "./Pages/authenticate";
 import { useAuthClient } from "./hooks";
 import { AuthClient } from "@dfinity/auth-client";
 import { _SERVICE } from "../../declarations/zweeter/zweeter.did";
+import { _SERVICE as _INVOICESERVICE } from "../../invoice_canister/test/e2e/src/declarations/invoice/invoice.did";
 import { ActorSubclass } from "@dfinity/agent";
 import AllTweets from "./Pages/allTweets";
 const theme = createTheme({
@@ -27,6 +28,7 @@ export const AppContext = React.createContext<{
   login: () => void;
   logout: () => void;
   actor?: ActorSubclass<_SERVICE>;
+  invoiceActor?: ActorSubclass<_INVOICESERVICE>;
   hasLoggedIn: boolean;
   actorName?: string;
   setName: (name: string) => void;
@@ -48,6 +50,7 @@ const App = () => {
     hasLoggedIn,
     setName,
     actorName,
+    invoiceActor,
   } = useAuthClient();
   return (
     <AppContext.Provider
@@ -61,6 +64,7 @@ const App = () => {
         actor,
         hasLoggedIn,
         setName,
+        invoiceActor,
         actorName,
       }}
     >
