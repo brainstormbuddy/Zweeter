@@ -9,11 +9,13 @@ import {
 import { _SERVICE } from "../../declarations/zweeter/zweeter.did";
 import { _SERVICE as _INVOICESERVICE } from "../../invoice_canister/test/e2e/src/declarations/invoice/invoice.did";
 import { clear } from "local-storage";
+import { Principal } from "@dfinity/principal";
 
 type UseAuthClientProps = {};
 export function useAuthClient(props?: UseAuthClientProps) {
   const [authClient, setAuthClient] = useState<AuthClient>();
   const [actor, setActor] = useState<ActorSubclass<_SERVICE>>();
+  const [principal, setPrincipal] = useState<Principal>();
   const [invoiceActor, setInvoiceActor] =
     useState<ActorSubclass<_INVOICESERVICE>>();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -37,6 +39,7 @@ export function useAuthClient(props?: UseAuthClientProps) {
   };
   const initActor = async () => {
     const identity = await authClient?.getIdentity();
+    setPrincipal(identity.getPrincipal());
     const actor = createActor(canisterId as string, {
       agentOptions: {
         identity,
@@ -65,6 +68,7 @@ export function useAuthClient(props?: UseAuthClientProps) {
     clear();
     setIsAuthenticated(false);
     setActor(undefined);
+    setPrincipal(undefined);
     setHasLoggedIn(false);
     setName(null);
     authClient?.logout();
@@ -96,5 +100,7 @@ export function useAuthClient(props?: UseAuthClientProps) {
     hasLoggedIn,
     actorName,
     setName,
+    principal,
+    setPrincipal
   };
 }

@@ -21,7 +21,7 @@ import { AppContext } from "../App";
 import { useContext, useEffect } from "react";
 export default function TweetList(props) {
   const tweets = props.tweets;
-  const { actor, invoiceActor } = useContext(AppContext);
+  const { actor, invoiceActor, principal } = useContext(AppContext);
   const likeTweet = async (tweetID: string, userid: string) => {
     await actor?.likeTweet(tweetID, userid);
     props.updateTweets();
@@ -30,9 +30,45 @@ export default function TweetList(props) {
     await actor?.dislikeTweet(tweetID, userid);
     props.updateTweets();
   };
+
+  const transferBalance = async () => {
+    let balance = await invoiceActor.get_balance({
+      token: {
+        symbol: "ICP",
+      },
+    });
+    if ("ok" in balance) {
+      let amount = balance.ok.balance;
+      if (amount > 0) {
+        // Transfer full balance back to the balance holder
+        let result = await invoiceActor.transfer({
+          amount,
+          token: {
+            symbol: "ICP",
+          },
+          destination: {
+            text: "cd60093cef12e11d7b8e791448023348103855f682041e93f7d0be451f48118b",
+          },
+        });
+        return result;
+      }
+    }
+  };
+
   const tipTweet = async () => {
-    const balance = await invoiceActor.test_get_balance();
+    const balance = await invoiceActor.get_balance({
+      token: {
+        symbol: "ICP",
+      },
+    });
+
     console.log(balance);
+    const accountIdentifier = await invoiceActor.get_account_identifier({
+      token: { symbol: "ICP" },
+      principal: principal,
+    });
+
+    console.log(accountIdentifier);
   };
   return (
     <Container maxWidth="md">
