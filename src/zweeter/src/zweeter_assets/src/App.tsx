@@ -7,7 +7,7 @@ import Authenticate from "./Pages/authenticate";
 import { useAuthClient } from "./hooks";
 import { AuthClient } from "@dfinity/auth-client";
 import { _SERVICE } from "../../declarations/zweeter/zweeter.did";
-import { _SERVICE as _INVOICESERVICE } from "../../invoice_canister/test/e2e/src/declarations/invoice/invoice.did";
+import { _SERVICE as _INVOICESERVICE } from "../../declarations/invoice/invoice.did";
 import { ActorSubclass } from "@dfinity/agent";
 import AllTweets from "./Pages/allTweets";
 import { Principal } from "@dfinity/principal";

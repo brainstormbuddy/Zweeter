@@ -1,3 +1,5 @@
+# Use this script to install everything from scratch. CAREFUL: This re-deploys the II canister rendering your local II accounts useless. 
+
 dfx stop
 
 #clean up
@@ -34,3 +36,6 @@ rm src/ledger/ledger.did
 cp src/ledger/ledger.public.did src/ledger/ledger.did
 
 dfx deploy invoice
+
+dfx deploy zweeter
+dfx deploy zweeter_assets

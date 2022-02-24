@@ -5,9 +5,9 @@ import { createActor, canisterId } from "../../declarations/zweeter";
 import {
   createActor as createInvoiceActor,
   canisterId as invoiceCanisterId,
-} from "../../invoice_canister/test/e2e/src/declarations/invoice";
+} from "../../declarations/invoice";
 import { _SERVICE } from "../../declarations/zweeter/zweeter.did";
-import { _SERVICE as _INVOICESERVICE } from "../../invoice_canister/test/e2e/src/declarations/invoice/invoice.did";
+import { _SERVICE as _INVOICESERVICE } from "../../declarations/invoice/invoice.did";
 import { clear } from "local-storage";
 import { Principal } from "@dfinity/principal";
 
@@ -39,7 +39,12 @@ export function useAuthClient(props?: UseAuthClientProps) {
   };
   const initActor = async () => {
     const identity = await authClient?.getIdentity();
+    console.log(identity);
     setPrincipal(identity.getPrincipal());
+
+    console.log(canisterId);
+    console.log(invoiceCanisterId);
+
     const actor = createActor(canisterId as string, {
       agentOptions: {
         identity,
