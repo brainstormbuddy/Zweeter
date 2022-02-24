@@ -1,3 +1,5 @@
+import { Principal } from "@dfinity/candid/lib/cjs/idl";
+
 export const idlFactory = ({ IDL }) => {
   const AccountIdentifier__1 = IDL.Variant({
     'principal' : IDL.Principal,
@@ -198,7 +200,8 @@ export const idlFactory = ({ IDL }) => {
         [GetAccountIdentifierResult],
         ['query'],
       ),
-    'get_balance' : IDL.Func([GetBalanceArgs], [GetBalanceResult], []),
+      'get_balance' : IDL.Func([GetBalanceArgs], [GetBalanceResult], []),
+      'test_get_balance' : IDL.Func([], [Principal], []),
     'get_invoice' : IDL.Func([GetInvoiceArgs], [GetInvoiceResult], ['query']),
     'refund_invoice' : IDL.Func([RefundInvoiceArgs], [RefundInvoiceResult], []),
     'remaining_cycles' : IDL.Func([], [IDL.Nat], ['query']),

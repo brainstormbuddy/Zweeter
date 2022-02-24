@@ -12,7 +12,7 @@ export const idlFactory = ({ IDL }) => {
     'userid' : IDL.Text,
     'tweetid' : IDL.Text,
   });
-  const Zweeter = IDL.Service({
+  return IDL.Service({
     '_constructTweetId' : IDL.Func([IDL.Principal, IDL.Text], [IDL.Text], []),
     '_constructTweetIdByText' : IDL.Func([IDL.Text, IDL.Text], [IDL.Text], []),
     '_getTweetById' : IDL.Func([IDL.Text], [IDL.Opt(Tweet)], ['query']),
@@ -38,6 +38,5 @@ export const idlFactory = ({ IDL }) => {
     'setTweet' : IDL.Func([IDL.Text, Tweet], [], []),
     'setUser' : IDL.Func([User], [], []),
   });
-  return Zweeter;
 };
 export const init = ({ IDL }) => { return []; };

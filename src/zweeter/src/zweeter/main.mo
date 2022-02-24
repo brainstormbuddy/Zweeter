@@ -8,7 +8,7 @@ import DataStore "./store";
 // the key will always start with the current userId and then a random identifier should be added
 // for example we set the user with setUser("wr2vh-ou7gv-cq623-6oxpi-2x3bp-k3hbl-5zhvf-66p3h-upq62-pcmde-fqe_abbcddeff", USERDATA)
 // and then we can use the listUsers method to query user data by keyStartsWith(USERID)
-actor class Zweeter() {
+actor Zweeter {
     // user store
     type User = {
         name: Text;

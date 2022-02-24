@@ -9,7 +9,7 @@ export interface Tweet {
   'liked' : bigint,
 }
 export interface User { 'id' : string, 'name' : string }
-export interface Zweeter {
+export interface _SERVICE {
   '_constructTweetId' : (arg_0: Principal, arg_1: string) => Promise<string>,
   '_constructTweetIdByText' : (arg_0: string, arg_1: string) => Promise<string>,
   '_getTweetById' : (arg_0: string) => Promise<[] | [Tweet]>,
@@ -27,4 +27,3 @@ export interface Zweeter {
   'setTweet' : (arg_0: string, arg_1: Tweet) => Promise<undefined>,
   'setUser' : (arg_0: User) => Promise<undefined>,
 }
-export interface _SERVICE extends Zweeter {}

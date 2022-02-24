@@ -225,6 +225,7 @@ service : {
   get_account_identifier: (GetAccountIdentifierArgs) ->
    (GetAccountIdentifierResult) query;
   get_balance: (GetBalanceArgs) -> (GetBalanceResult);
+  test_get_balance: () -> (principal);
   get_invoice: (GetInvoiceArgs) -> (GetInvoiceResult) query;
   refund_invoice: (RefundInvoiceArgs) -> (RefundInvoiceResult);
   remaining_cycles: () -> (nat) query;

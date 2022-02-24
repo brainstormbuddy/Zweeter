@@ -1,9 +1,3 @@
-import A          "./Account";
-import Hex        "./Hex";
-import ICP        "./ICPLedger";
-import T          "./Types";
-import U          "./Utils";
-
 import Array      "mo:base/Array";
 import Blob       "mo:base/Blob";
 import Cycles     "mo:base/ExperimentalCycles";
@@ -16,6 +10,12 @@ import Option     "mo:base/Option";
 import Principal  "mo:base/Principal";
 import Text       "mo:base/Text";
 import Time       "mo:base/Time";
+
+import A          "./Account";
+import Hex        "./Hex";
+import ICP        "./ICPLedger";
+import T          "./Types";
+import U          "./Utils";
 
 actor Invoice {
 // #region Types
@@ -188,6 +188,10 @@ actor Invoice {
     };
   };
 // #endregion
+
+  public shared ({caller}) func test_get_balance () : async Principal {
+    caller;
+  };
 
 // #region Get Balance
   public shared ({caller}) func get_balance (args : T.GetBalanceArgs) : async T.GetBalanceResult {

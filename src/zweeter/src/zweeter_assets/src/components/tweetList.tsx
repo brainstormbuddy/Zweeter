@@ -31,11 +31,7 @@ export default function TweetList(props) {
     props.updateTweets();
   };
   const tipTweet = async () => {
-    const balance = await invoiceActor?.get_balance({
-      token: {
-        symbol: "ICP",
-      },
-    });
+    const balance = await invoiceActor?.test_get_balance();
     console.log(balance);
   };
   return (
