@@ -11,6 +11,7 @@ type Tweet =
    liked: int;
    postedAt: int;
    user: text;
+   userAccountId: text;
    userid: text;
  };
 type LikedUserTweet = 

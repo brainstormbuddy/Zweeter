@@ -7,6 +7,7 @@ export interface Tweet {
   'userid' : string,
   'user' : string,
   'liked' : bigint,
+  'userAccountId' : string,
 }
 export interface User { 'id' : string, 'accountid' : string, 'name' : string }
 export interface _SERVICE {

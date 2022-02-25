@@ -1,7 +1,8 @@
 import Int = "mo:base/Int";
 import Iter "mo:base/Iter";
-import Time = "mo:base/Time";
 import Principal "mo:base/Principal";
+import Time = "mo:base/Time";
+
 import DataStore "./store";
 // https://levelup.gitconnected.com/a-simple-keyval-store-implemented-in-motoko-f8ba5af43618
 // this will be the basis for our data model.
@@ -41,6 +42,7 @@ actor Zweeter {
         id: Text;
         user: Text;
         userid: Text;
+        userAccountId: Text;
         liked: Int;
         postedAt: Int;
     };
@@ -57,6 +59,7 @@ actor Zweeter {
                         id = tweet.id;
                         user = tweet.user;
                         userid = Principal.toText(message.caller);
+                        userAccountId = tweet.userAccountId;
                         liked = 0;
                         postedAt = tweet.postedAt;
                     };
@@ -116,6 +119,7 @@ actor Zweeter {
                         id = tweet.id;
                         user = tweet.user;
                         userid = tweet.userid;
+                        userAccountId = tweet.userAccountId;
                         liked = tweet.liked + 1;
                         postedAt = tweet.postedAt;
                     };                    
@@ -142,6 +146,7 @@ actor Zweeter {
                         id = tweet.id;
                         user = tweet.user;
                         userid = tweet.userid;
+                        userAccountId = tweet.userAccountId;
                         liked = tweet.liked - 1;
                         postedAt = tweet.postedAt;
                     };

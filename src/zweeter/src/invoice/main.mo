@@ -33,9 +33,17 @@ actor Invoice {
     });
 
 
-  // Custom: Returns the default account identifier of this canister.
+  // Returns the default account identifier of this canister.
   public shared ({caller}) func get_account_id() : async Text {
-    Hex.encode(Blob.toArray(A.accountIdentifier(caller, A.defaultSubaccount())))
+    let canisterId = Principal.fromActor(Invoice);
+    Hex.encode(
+      Blob.toArray(
+        U.getDefaultAccount({
+          canisterId;
+          principal = caller;
+        })
+      )
+    )
   };
 
 /**

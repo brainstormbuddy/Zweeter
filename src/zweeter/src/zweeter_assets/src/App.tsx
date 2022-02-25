@@ -33,12 +33,15 @@ export const AppContext = React.createContext<{
   hasLoggedIn: boolean;
   actorName?: string;
   setName: (name: string) => void;
-  principal?: Principal;
+  accountId: string;
+  setAccountId: (accountId: string) => void;
 }>({
   login: () => {},
   logout: () => {},
   hasLoggedIn: false,
   setName: (name: string) => {},
+  accountId: null,
+  setAccountId: (accountId: string) => {},
 });
 const App = () => {
   const {
@@ -51,6 +54,8 @@ const App = () => {
     actor,
     hasLoggedIn,
     setName,
+    accountId,
+    setAccountId,
     actorName,
     invoiceActor,
   } = useAuthClient();
@@ -66,6 +71,8 @@ const App = () => {
         actor,
         hasLoggedIn,
         setName,
+        accountId,
+        setAccountId,
         invoiceActor,
         actorName,
       }}

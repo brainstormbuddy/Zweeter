@@ -1,0 +1,2 @@
+export LOGIN_ACC="$(python3 -c 'print("vec{" + ";".join([str(b) for b in bytes.fromhex("'$1'")]) + "}")')"
+dfx canister call ledger transfer "(record {memo=0; amount=record {e8s=$2:nat64}; fee=record {e8s=10000:nat64}; to=$LOGIN_ACC})"

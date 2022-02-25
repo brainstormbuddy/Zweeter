@@ -6,6 +6,7 @@ export const idlFactory = ({ IDL }) => {
     'userid' : IDL.Text,
     'user' : IDL.Text,
     'liked' : IDL.Int,
+    'userAccountId' : IDL.Text,
   });
   const User = IDL.Record({
     'id' : IDL.Text,
