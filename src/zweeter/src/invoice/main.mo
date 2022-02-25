@@ -32,6 +32,12 @@ actor Invoice {
        kind = #InvalidToken;
     });
 
+
+  // Custom: Returns the default account identifier of this canister.
+  public shared ({caller}) func get_account_id() : async Text {
+    Hex.encode(Blob.toArray(A.accountIdentifier(caller, A.defaultSubaccount())))
+  };
+
 /**
 * Application State
 */

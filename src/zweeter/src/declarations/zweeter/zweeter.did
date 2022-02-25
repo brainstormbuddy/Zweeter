@@ -1,5 +1,6 @@
 type User = 
  record {
+   accountid: text;
    id: text;
    name: text;
  };

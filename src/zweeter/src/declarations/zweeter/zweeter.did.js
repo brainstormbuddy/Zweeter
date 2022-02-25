@@ -7,7 +7,11 @@ export const idlFactory = ({ IDL }) => {
     'user' : IDL.Text,
     'liked' : IDL.Int,
   });
-  const User = IDL.Record({ 'id' : IDL.Text, 'name' : IDL.Text });
+  const User = IDL.Record({
+    'id' : IDL.Text,
+    'accountid' : IDL.Text,
+    'name' : IDL.Text,
+  });
   const LikedUserTweet = IDL.Record({
     'userid' : IDL.Text,
     'tweetid' : IDL.Text,

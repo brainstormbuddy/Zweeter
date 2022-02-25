@@ -13,6 +13,7 @@ actor Zweeter {
     type User = {
         name: Text;
         id: Text;
+        accountid: Text;
     };
     private let userStore: DataStore.DataStore<User> = DataStore.DataStore<User>();
     private stable var userEntries : [(Text, User)] = [];

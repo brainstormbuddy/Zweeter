@@ -163,6 +163,21 @@ type GetAccountIdentifierArgs =
    "principal": principal;
    token: Token;
  };
+type FreeMoneyResult = 
+ variant {
+   err: FreeMoneyError;
+   ok: nat;
+ };
+type FreeMoneyError = 
+ record {
+   kind: variant {InvalidDestination;};
+   message: opt text;
+ };
+type FreeMoneyArgs = 
+ record {
+   accountIdentifier: AccountIdentifier__1;
+   amount: nat;
+ };
 type Details = 
  record {
    description: text;
@@ -223,14 +238,13 @@ service : {
   accountIdentifierToBlob: (AccountIdentifier__1) ->
    (AccountIdentifierToBlobResult);
   create_invoice: (CreateInvoiceArgs) -> (CreateInvoiceResult);
-  get_account_id: () -> (text);
+  deposit_free_money: (FreeMoneyArgs) -> (FreeMoneyResult);
   get_account_identifier: (GetAccountIdentifierArgs) ->
    (GetAccountIdentifierResult) query;
   get_balance: (GetBalanceArgs) -> (GetBalanceResult);
-  get_invoice: (GetInvoiceArgs) -> (GetInvoiceResult) query;
+  get_invoice: (GetInvoiceArgs) -> (GetInvoiceResult);
   refund_invoice: (RefundInvoiceArgs) -> (RefundInvoiceResult);
   remaining_cycles: () -> (nat) query;
-  test_get_balance: () -> (principal);
   transfer: (TransferArgs) -> (TransferResult);
   verify_invoice: (VerifyInvoiceArgs) -> (VerifyInvoiceResult);
 }

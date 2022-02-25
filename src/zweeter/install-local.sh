@@ -35,6 +35,7 @@ dfx deploy ledger --argument '(record {minting_account = "'${MINT_ACC}'"; initia
 rm src/ledger/ledger.did
 cp src/ledger/ledger.public.did src/ledger/ledger.did
 
+dfx deploy invoice_mock
 dfx deploy invoice
 
 dfx deploy zweeter

@@ -8,7 +8,7 @@ export interface Tweet {
   'user' : string,
   'liked' : bigint,
 }
-export interface User { 'id' : string, 'name' : string }
+export interface User { 'id' : string, 'accountid' : string, 'name' : string }
 export interface _SERVICE {
   '_constructTweetId' : (arg_0: Principal, arg_1: string) => Promise<string>,
   '_constructTweetIdByText' : (arg_0: string, arg_1: string) => Promise<string>,

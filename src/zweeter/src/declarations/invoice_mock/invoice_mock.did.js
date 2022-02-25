@@ -73,6 +73,18 @@ export const idlFactory = ({ IDL }) => {
     'ok' : CreateInvoiceSuccess,
     'err' : CreateInvoiceErr,
   });
+  const FreeMoneyArgs = IDL.Record({
+    'amount' : IDL.Nat,
+    'accountIdentifier' : AccountIdentifier__1,
+  });
+  const FreeMoneyError = IDL.Record({
+    'kind' : IDL.Variant({ 'InvalidDestination' : IDL.Null }),
+    'message' : IDL.Opt(IDL.Text),
+  });
+  const FreeMoneyResult = IDL.Variant({
+    'ok' : IDL.Nat,
+    'err' : FreeMoneyError,
+  });
   const GetAccountIdentifierArgs = IDL.Record({
     'principal' : IDL.Principal,
     'token' : Token,
@@ -194,17 +206,16 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'create_invoice' : IDL.Func([CreateInvoiceArgs], [CreateInvoiceResult], []),
-    'get_account_id' : IDL.Func([], [IDL.Text], []),
+    'deposit_free_money' : IDL.Func([FreeMoneyArgs], [FreeMoneyResult], []),
     'get_account_identifier' : IDL.Func(
         [GetAccountIdentifierArgs],
         [GetAccountIdentifierResult],
         ['query'],
       ),
     'get_balance' : IDL.Func([GetBalanceArgs], [GetBalanceResult], []),
-    'get_invoice' : IDL.Func([GetInvoiceArgs], [GetInvoiceResult], ['query']),
+    'get_invoice' : IDL.Func([GetInvoiceArgs], [GetInvoiceResult], []),
     'refund_invoice' : IDL.Func([RefundInvoiceArgs], [RefundInvoiceResult], []),
     'remaining_cycles' : IDL.Func([], [IDL.Nat], ['query']),
-    'test_get_balance' : IDL.Func([], [IDL.Principal], []),
     'transfer' : IDL.Func([TransferArgs], [TransferResult], []),
     'verify_invoice' : IDL.Func([VerifyInvoiceArgs], [VerifyInvoiceResult], []),
   });

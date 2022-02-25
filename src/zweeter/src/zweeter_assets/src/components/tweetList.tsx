@@ -63,10 +63,7 @@ export default function TweetList(props) {
     });
 
     console.log(balance);
-    const accountIdentifier = await invoiceActor.get_account_identifier({
-      token: { symbol: "ICP" },
-      principal: principal,
-    });
+    const accountIdentifier = await invoiceActor.get_account_id();
 
     console.log(accountIdentifier);
   };

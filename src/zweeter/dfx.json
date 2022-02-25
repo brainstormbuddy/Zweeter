@@ -1,8 +1,13 @@
 {
   "canisters": {
-    "invoice": {
+    "invoice_mock": {
       "dependencies": ["ledger"],
       "main": "src/mocks/invoice.mo",
+      "type": "motoko"
+    },
+    "invoice": {
+      "dependencies": ["ledger"],
+      "main": "src/invoice/main.mo",
       "type": "motoko"
     },
     "ledger": {

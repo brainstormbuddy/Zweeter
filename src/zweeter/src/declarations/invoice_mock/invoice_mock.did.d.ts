@@ -33,6 +33,16 @@ export type CreateInvoiceResult = { 'ok' : CreateInvoiceSuccess } |
   { 'err' : CreateInvoiceErr };
 export interface CreateInvoiceSuccess { 'invoice' : Invoice }
 export interface Details { 'meta' : Array<number>, 'description' : string }
+export interface FreeMoneyArgs {
+  'amount' : bigint,
+  'accountIdentifier' : AccountIdentifier__1,
+}
+export interface FreeMoneyError {
+  'kind' : { 'InvalidDestination' : null },
+  'message' : [] | [string],
+}
+export type FreeMoneyResult = { 'ok' : bigint } |
+  { 'err' : FreeMoneyError };
 export interface GetAccountIdentifierArgs {
   'principal' : Principal,
   'token' : Token,
@@ -158,7 +168,7 @@ export interface _SERVICE {
       AccountIdentifierToBlobResult
     >,
   'create_invoice' : (arg_0: CreateInvoiceArgs) => Promise<CreateInvoiceResult>,
-  'get_account_id' : () => Promise<string>,
+  'deposit_free_money' : (arg_0: FreeMoneyArgs) => Promise<FreeMoneyResult>,
   'get_account_identifier' : (arg_0: GetAccountIdentifierArgs) => Promise<
       GetAccountIdentifierResult
     >,
@@ -166,7 +176,6 @@ export interface _SERVICE {
   'get_invoice' : (arg_0: GetInvoiceArgs) => Promise<GetInvoiceResult>,
   'refund_invoice' : (arg_0: RefundInvoiceArgs) => Promise<RefundInvoiceResult>,
   'remaining_cycles' : () => Promise<bigint>,
-  'test_get_balance' : () => Promise<Principal>,
   'transfer' : (arg_0: TransferArgs) => Promise<TransferResult>,
   'verify_invoice' : (arg_0: VerifyInvoiceArgs) => Promise<VerifyInvoiceResult>,
 }
