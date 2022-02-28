@@ -40,10 +40,10 @@ The zweeter app supports using the invoice canister and the ledger canister loca
 ```bash
 cd ./src/zweeter
 dfx identity use minter
-sh fund-account-id.sh <CURRENT_PRINCIPAL_ACCOUNT_ID> <AMOUNT>
+sh fund-account-id.sh <ACCOUNT_ID> <AMOUNT>
 ```
 
-The `CURRENT_PRINCIPAL_ACCOUNT_ID`can be seen in the GUI of the zweeter application under the user profile. The `<AMOUNT>` is expressed in e8s and describes the amount that the funded account should receive.
+The `ACCOUNT_ID` can be seen in the GUI of the zweeter application under the `MY ACCOUNT` section. The `<AMOUNT>` is expressed in e8s and describes the amount that the funded account should receive.
 
 Keep in mind that when tipping, a total of 110.000 e8s gets transferred to the creator of the corresponding zweet. In reality though, only 100.000 actually arrives at the destination since 10.000 is used for the transaction fee.
 
