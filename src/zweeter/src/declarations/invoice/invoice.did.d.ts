@@ -166,7 +166,6 @@ export interface _SERVICE {
   'get_invoice' : (arg_0: GetInvoiceArgs) => Promise<GetInvoiceResult>,
   'refund_invoice' : (arg_0: RefundInvoiceArgs) => Promise<RefundInvoiceResult>,
   'remaining_cycles' : () => Promise<bigint>,
-  'test_get_balance' : () => Promise<Principal>,
   'transfer' : (arg_0: TransferArgs) => Promise<TransferResult>,
   'verify_invoice' : (arg_0: VerifyInvoiceArgs) => Promise<VerifyInvoiceResult>,
 }

@@ -203,10 +203,6 @@ actor Invoice {
   };
 // #endregion
 
-  public shared ({caller}) func test_get_balance () : async Principal {
-    caller;
-  };
-
 // #region Get Balance
   public shared ({caller}) func get_balance (args : T.GetBalanceArgs) : async T.GetBalanceResult {
     let token = args.token;

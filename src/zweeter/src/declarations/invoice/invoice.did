@@ -230,7 +230,6 @@ service : {
   get_invoice: (GetInvoiceArgs) -> (GetInvoiceResult) query;
   refund_invoice: (RefundInvoiceArgs) -> (RefundInvoiceResult);
   remaining_cycles: () -> (nat) query;
-  test_get_balance: () -> (principal);
   transfer: (TransferArgs) -> (TransferResult);
   verify_invoice: (VerifyInvoiceArgs) -> (VerifyInvoiceResult);
 }

@@ -42,7 +42,7 @@ export default function TweetList(props) {
       let amount = balance.ok.balance;
       console.log("current user has balance: " + amount);
       let result = await invoiceActor.transfer({
-        amount: BigInt(10000),
+        amount: BigInt(110000),
         token: {
           symbol: "ICP",
         },
