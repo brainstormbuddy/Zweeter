@@ -194,7 +194,6 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'create_invoice' : IDL.Func([CreateInvoiceArgs], [CreateInvoiceResult], []),
-    'get_account_id' : IDL.Func([], [IDL.Text], []),
     'get_account_identifier' : IDL.Func(
         [GetAccountIdentifierArgs],
         [GetAccountIdentifierResult],
