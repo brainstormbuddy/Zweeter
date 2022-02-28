@@ -51,3 +51,13 @@ sh fund-account-id.sh <ACCOUNT_ID> <AMOUNT>
 The `ACCOUNT_ID` can be seen in the GUI of the zweeter application under the `MY ACCOUNT` section. The `<AMOUNT>` is expressed in e8s and describes the amount that the funded account should receive.
 
 Keep in mind that when tipping, a total of 110.000 e8s gets transferred to the creator of the corresponding zweet. In reality though, only 100.000 actually arrives at the destination since 10.000 is used for the transaction fee.
+
+## Troubleshooting
+
+The internet identity is compiled locally and the corresponding canister id can be extracted from the console output while the install-local.sh script is running. Usually the canister id gets a default value of `rwlgt-iiaaa-aaaaa-aaaaa-cai`, however this might not always be the case. For local development you probably need to create your own `.env` file inside the `./src/zweeter` directory and set the local internet identity path in there (it should contain the following line):
+
+```
+LOCAL_II_CANISTER="http://<INTERNET-IDENTITY-CANISTER-ID>.localhost:8000/#authorize"
+
+```
+Don't forget to substitute `<INTERNET-IDENTITY-CANISTER-ID>` for the canister id of the internet identity mentioned above.
