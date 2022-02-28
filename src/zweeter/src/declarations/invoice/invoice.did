@@ -223,6 +223,7 @@ service : {
   accountIdentifierToBlob: (AccountIdentifier__1) ->
    (AccountIdentifierToBlobResult);
   create_invoice: (CreateInvoiceArgs) -> (CreateInvoiceResult);
+  get_account_id: () -> (text);
   get_account_identifier: (GetAccountIdentifierArgs) ->
    (GetAccountIdentifierResult) query;
   get_balance: (GetBalanceArgs) -> (GetBalanceResult);

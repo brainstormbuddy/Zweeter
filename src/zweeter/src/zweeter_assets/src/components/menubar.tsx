@@ -27,6 +27,7 @@ const useStyles = makeStyles(() => ({
 const pagesInit = [
   { title: "Home", link: "/home" },
   { title: "All Zweets", link: "/timeline" },
+  { title: "My Account", link: "/account" },
 ];
 
 export default function MenuBar() {
@@ -68,7 +69,12 @@ export default function MenuBar() {
           <div className={classes.profile}>
             {hasLoggedIn && (
               <>
-                <Typography sx={{ marginTop: "20px" }}>{actorName}</Typography>
+                <Typography
+                  sx={{ marginTop: "20px" }}
+                  onClick={() => navigate("/account")}
+                >
+                  {actorName}
+                </Typography>
                 <Tooltip title="logout">
                   <IconButton
                     size="large"

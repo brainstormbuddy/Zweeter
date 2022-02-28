@@ -6,7 +6,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-const LOCAL_II_CANISTER = process.env.LOCAL_II_CANISTER ?? "";
+const LOCAL_II_CANISTER = `http://${process.env.II_CANISTER}.localhost:8000/#authorize` ?? "";
 
 function initCanisterEnv() {
   let localCanisters, prodCanisters;

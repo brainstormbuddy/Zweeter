@@ -11,6 +11,7 @@ import { _SERVICE as _INVOICESERVICE } from "../../declarations/invoice/invoice.
 import { ActorSubclass } from "@dfinity/agent";
 import AllTweets from "./Pages/allTweets";
 import { Principal } from "@dfinity/principal";
+import MyAccount from "./Pages/account";
 const theme = createTheme({
   palette: {
     primary: {
@@ -35,6 +36,7 @@ export const AppContext = React.createContext<{
   setName: (name: string) => void;
   accountId: string;
   setAccountId: (accountId: string) => void;
+  principal?: Principal;
 }>({
   login: () => {},
   logout: () => {},
@@ -58,6 +60,7 @@ const App = () => {
     setAccountId,
     actorName,
     invoiceActor,
+    principal,
   } = useAuthClient();
   return (
     <AppContext.Provider
@@ -75,6 +78,7 @@ const App = () => {
         setAccountId,
         invoiceActor,
         actorName,
+        principal,
       }}
     >
       <ThemeProvider theme={theme}>
@@ -83,6 +87,7 @@ const App = () => {
             <Route index element={<Authenticate />} />
             <Route path="/home" element={<Profile />} />
             <Route path="/timeline" element={<AllTweets />} />
+            <Route path="/account" element={<MyAccount />} />
           </Route>
         </Routes>{" "}
       </ThemeProvider>
