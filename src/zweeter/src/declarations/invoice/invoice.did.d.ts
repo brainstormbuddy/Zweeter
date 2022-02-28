@@ -158,7 +158,6 @@ export interface _SERVICE {
       AccountIdentifierToBlobResult
     >,
   'create_invoice' : (arg_0: CreateInvoiceArgs) => Promise<CreateInvoiceResult>,
-  'get_account_id' : () => Promise<string>,
   'get_account_identifier' : (arg_0: GetAccountIdentifierArgs) => Promise<
       GetAccountIdentifierResult
     >,

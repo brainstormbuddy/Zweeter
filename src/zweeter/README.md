@@ -8,15 +8,20 @@ The internet identity has been cloned and included in this project deliberately 
 Building and running this project locally requires the installation of the following packages:
 - Node.js along with npm (v16 LTS is needed, tested with v16.13.2. There are problems reported with v17).
 - dfx console tool (here is info on how to get it [here](https://smartcontracts.org/docs/developers-guide/install-upgrade-remove.html)) 
-- Execute npm install to locally install all necessary node packages
+- Execute npm install to locally install all necessary node packages (you need to do this both in src/zweeter as well as in src/internet-identity folders)
 
 ## Build and run locally
+
+**BEFORE you can actually build the internet-identity package** please refer [here](https://github.com/dfinity/internet-identity#dependencies) to install all its dependencies! Remember, the scripts **DO NOT TAKE CARE OF THAT.**
 
 There are scripts created and committed in the repository to help you bootstrap the build and deployment of the project.
 The initial step is to run npm install and have it locally install all necessary node packages for the application to function properly. Then, he install-local.sh script cleans everything up creating a vanilla environment for you to start working. It starts the dfx environment for you, initializes the internet identity **(BE CAREFUL, it renders all existing local identities useless!)**, it deploys the ledger canister locally and funds the MINTER and the DEFAULT account with ICP tokens. Finally it builds and deploys the rest of the canisters necessary for the project, such as the invoice and the zweeter canister, along with the zweeter_assets (frontend application) canister.
 Finally you can start the local instance of the frontend via the npm start command and visit the page on `http://localhost:8080`.
 
 ```bash
+cd ./src/internet-identity
+npm install
+cd ..
 cd ./src/zweeter
 npm install
 sh install-local.sh
