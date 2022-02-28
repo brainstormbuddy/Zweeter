@@ -8,6 +8,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import React = require("react");
 import { useCallback, useContext, useEffect, useState } from "react";
@@ -18,7 +19,11 @@ export default function MyAccount() {
     useContext(AppContext);
   const [balance, setBalance] = useState(0);
   const [loadingBalance, setLoadingBalance] = useState(true);
-
+  const copyToClipboard = (str) => {
+    if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+      return navigator.clipboard.writeText(str);
+    return Promise.reject("The Clipboard API is not available.");
+  };
   const getBalance = useCallback(() => {
     setLoadingBalance(true);
     invoiceActor
@@ -49,6 +54,13 @@ export default function MyAccount() {
           <Typography>Account ID</Typography>
           <Typography variant={"body2"} color="text.secondary">
             {accountId}
+            <IconButton
+              color="primary"
+              onClick={() => copyToClipboard(accountId)}
+              sx={{ padding: 0, mx: "5px" }}
+            >
+              <ContentCopyIcon />
+            </IconButton>
           </Typography>
           <Typography>Balance</Typography>
           {loadingBalance ? (

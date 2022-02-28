@@ -91,6 +91,7 @@ export default function TweetList(props) {
   return (
     <Container maxWidth="md">
       <Snackbar
+        key={message}
         open={snackbarOpen}
         autoHideDuration={3000}
         onClose={handleClose}
@@ -139,10 +140,10 @@ export default function TweetList(props) {
                     sx={{ mt: 0, pt: 0 }}
                     justifyContent="space-around"
                   >
-                    <Grid item xs={6}>
+                    <Grid item xs={2} sx={{ ml: "20px", padding: 0 }}>
                       <Typography
                         variant={"body2"}
-                        sx={{ textAlign: "center" }}
+                        sx={{ textAlign: "center", padding: 0 }}
                         component={"span"}
                       >
                         {Number(tweet.liked)}
@@ -173,7 +174,7 @@ export default function TweetList(props) {
                         </Tooltip>
                       )}
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={2} sx={{ pt: "0px" }}>
                       <Tooltip title="Tip!">
                         <IconButton
                           color="primary"
@@ -186,7 +187,7 @@ export default function TweetList(props) {
                         </IconButton>
                       </Tooltip>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} sx={{ pt: "0px" }}>
                       <Divider variant="middle" component="li" />
                     </Grid>
                   </Grid>
