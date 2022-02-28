@@ -13,7 +13,6 @@ dfx start --background --clean
 cd ..
 cd internet-identity
 II_ENV=development dfx deploy --no-wallet --argument '(null)'
-export II_CANISTER=$(dfx canister id internet_identity) #Canister is used for the II redirect in webpack.config.js
 
 cd ..
 cd zweeter

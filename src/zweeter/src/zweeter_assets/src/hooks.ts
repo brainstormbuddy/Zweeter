@@ -28,7 +28,7 @@ export function useAuthClient(props?: UseAuthClientProps) {
       identityProvider:
         process.env.DFX_NETWORK === "ic"
           ? "https://identity.ic0.app/#authorize"
-          : `http://${process.env.II_CANISTER}.localhost:8000/#authorize`,
+          : process.env.LOCAL_II_CANISTER,
       onSuccess: () => {
         initActor();
         setIsAuthenticated(true);
