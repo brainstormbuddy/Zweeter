@@ -1,66 +1,58 @@
 # zweeter
 
-Welcome to your new zweeter project and to the internet computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+Zweeter is a tweeter clone implemented on the internet computer. The project utilizes the power of the motoko programming language to create canister code that accommodates the data model for the app. It includes a specific version of the internet identity (whose git repository can be found [here](https://github.com/dfinity/internet-identity)). 
+The internet identity has been cloned and included in this project deliberately so that a dev can simply fork this complete repository and expect that everything works out of the box. HOWEVER, it should be noted, that the latest version of the Internet Identity can probably have breaking changes compared to the one being used in this project. 
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+## Prerequisites
 
-To learn more before you start working with zweeter, see the following documentation available online:
+Building and running this project locally requires the installation of the following packages:
+- Node.js along with npm (v16 LTS is needed, tested with v16.13.2. There are problems reported with v17).
+- dfx console tool (here is info on how to get it [here](https://smartcontracts.org/docs/developers-guide/install-upgrade-remove.html)) 
+- Execute npm install to locally install all necessary node packages
 
-- [Quick Start](https://sdk.dfinity.org/docs/quickstart/quickstart-intro.html)
-- [SDK Developer Tools](https://sdk.dfinity.org/docs/developers-guide/sdk-guide.html)
-- [Motoko Programming Language Guide](https://sdk.dfinity.org/docs/language-guide/motoko.html)
-- [Motoko Language Quick Reference](https://sdk.dfinity.org/docs/language-guide/language-manual.html)
-- [JavaScript API Reference](https://erxue-5aaaa-aaaab-qaagq-cai.raw.ic0.app)
+## Build and run locally
 
-If you want to start working on your project right away, you might want to try the following commands:
-
-```bash
-cd zweeter/
-dfx help
-dfx config --help
-```
-
-## Running the project locally
-
-If you want to test your project locally, you can use the following commands:
-
-**(if you run into problems, remove all the .dfx folders and start over)**
+There are scripts created and committed in the repository to help you bootstrap the build and deployment of the project.
+The initial step is to run npm install and have it locally install all necessary node packages for the application to function properly. Then, he install-local.sh script cleans everything up creating a vanilla environment for you to start working. It starts the dfx environment for you, initializes the internet identity **(BE CAREFUL, it renders all existing local identities useless!)**, it deploys the ledger canister locally and funds the MINTER and the DEFAULT account with ICP tokens. Finally it builds and deploys the rest of the canisters necessary for the project, such as the invoice and the zweeter canister, along with the zweeter_assets (frontend application) canister.
+Finally you can start the local instance of the frontend via the npm start command and visit the page on `http://localhost:8080`.
 
 ```bash
-
-#cleanup
-cd src
-rm -rf */.dfx
-
-# Starts the replica, running in the background
-cd zweeter
-dfx start --background
-
-# Starts the internet identity
-cd ..
-cd internet-identity
-II_ENV=development dfx deploy --no-wallet --argument '(null)'
-
-# Deploys your canisters to the replica and generates your candid interface
-cd ..
-cd zweeter
-dfx deploy
-```
-
-Once the job completes, your application will be available at `http://localhost:8000?canisterId={asset_canister_id}`.
-
-Additionally, if you are making frontend changes, you can start a development server with
-
-```bash
+cd ./src/zweeter
+npm install
+sh install-local.sh
 npm start
 ```
 
-Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 8000.
+## Updating canister code and doing dev iterations without losing existing internet identities
 
-### Note on frontend environment variables
+There is a second script that supports doing developer iterations (rebuilding and redeploying updated canister code without cleaning up existing internet identities). This script takes for granted that the dfx tool is already running and the internet identity is already deployed locally (which basically happens when you execute the `install-local.sh` for the first time).
 
-If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
+```bash
+cd ./src/zweeter
+sh update-local.sh
+npm start
+```
 
-- set`NODE_ENV` to `production` if you are using Webpack
-- use your own preferred method to replace `process.env.NODE_ENV` in the autogenerated declarations
-- Write your own `createActor` constructor
+## Funding local accounts with ICP and using the tipping functionality
+
+The zweeter app supports using the invoice canister and the ledger canister locally so that zweeter users can send tips in ICP to users that have created zweets. For this to function properly, the default account id of the current principal needs to have been funded with ICP on the local ledger canister. (This step is not necessary in production as there the account id can be funded only externally). The local script `fund-account-id.sh` can be used to transfer funds from the minter or default account towards the account of the currently logged-in principal, so that the latter can use that funds for tipping.
+
+```bash
+cd ./src/zweeter
+dfx identity use minter
+sh fund-account-id.sh <CURRENT_PRINCIPAL_ACCOUNT_ID> <AMOUNT>
+```
+
+The `CURRENT_PRINCIPAL_ACCOUNT_ID`can be seen in the GUI of the zweeter application under the user profile. The `<AMOUNT>` is expressed in e8s and describes the amount that the funded account should receive.
+
+Keep in mind that when tipping, a total of 110.000 e8s gets transferred to the creator of the corresponding zweet. In reality though, only 100.000 actually arrives at the destination since 10.000 is used for the transaction fee.
+
+## Troubleshooting
+
+The internet identity is compiled locally and the corresponding canister id can be extracted from the console output while the install-local.sh script is running. Usually the canister id gets a default value of `rwlgt-iiaaa-aaaaa-aaaaa-cai`, however this might not always be the case. For local development you probably need to create your own `.env` file inside the `./src/zweeter` directory and set the local internet identity path in there (it should contain the following line):
+
+```
+LOCAL_II_CANISTER="http://<INTERNET-IDENTITY-CANISTER-ID>.localhost:8000/#authorize"
+
+```
+Don't forget to substitute `<INTERNET-IDENTITY-CANISTER-ID>` for the canister id of the internet identity mentioned above.
