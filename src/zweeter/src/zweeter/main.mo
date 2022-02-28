@@ -1,18 +1,20 @@
 import Int = "mo:base/Int";
 import Iter "mo:base/Iter";
-import Time = "mo:base/Time";
 import Principal "mo:base/Principal";
+import Time = "mo:base/Time";
+
 import DataStore "./store";
 // https://levelup.gitconnected.com/a-simple-keyval-store-implemented-in-motoko-f8ba5af43618
 // this will be the basis for our data model.
 // the key will always start with the current userId and then a random identifier should be added
 // for example we set the user with setUser("wr2vh-ou7gv-cq623-6oxpi-2x3bp-k3hbl-5zhvf-66p3h-upq62-pcmde-fqe_abbcddeff", USERDATA)
 // and then we can use the listUsers method to query user data by keyStartsWith(USERID)
-actor class Zweeter() {
+actor Zweeter {
     // user store
     type User = {
         name: Text;
         id: Text;
+        accountid: Text;
     };
     private let userStore: DataStore.DataStore<User> = DataStore.DataStore<User>();
     private stable var userEntries : [(Text, User)] = [];
@@ -40,6 +42,7 @@ actor class Zweeter() {
         id: Text;
         user: Text;
         userid: Text;
+        userAccountId: Text;
         liked: Int;
         postedAt: Int;
     };
@@ -56,6 +59,7 @@ actor class Zweeter() {
                         id = tweet.id;
                         user = tweet.user;
                         userid = Principal.toText(message.caller);
+                        userAccountId = tweet.userAccountId;
                         liked = 0;
                         postedAt = tweet.postedAt;
                     };
@@ -115,6 +119,7 @@ actor class Zweeter() {
                         id = tweet.id;
                         user = tweet.user;
                         userid = tweet.userid;
+                        userAccountId = tweet.userAccountId;
                         liked = tweet.liked + 1;
                         postedAt = tweet.postedAt;
                     };                    
@@ -141,6 +146,7 @@ actor class Zweeter() {
                         id = tweet.id;
                         user = tweet.user;
                         userid = tweet.userid;
+                        userAccountId = tweet.userAccountId;
                         liked = tweet.liked - 1;
                         postedAt = tweet.postedAt;
                     };

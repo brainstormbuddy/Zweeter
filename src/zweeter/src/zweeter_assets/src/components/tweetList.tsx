@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import React = require("react");
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { AppContext } from "../App";
 import { useContext, useEffect } from "react";
@@ -30,14 +31,30 @@ export default function TweetList(props) {
     await actor?.dislikeTweet(tweetID, userid);
     props.updateTweets();
   };
-  const tipTweet = async () => {
-    const balance = await invoiceActor?.get_balance({
+
+  const tipTweet = async (accountId: string) => {
+    let balance = await invoiceActor.get_balance({
       token: {
         symbol: "ICP",
       },
     });
-    console.log(balance);
+    if ("ok" in balance) {
+      let amount = balance.ok.balance;
+      console.log("current user has balance: " + amount);
+      let result = await invoiceActor.transfer({
+        amount: BigInt(110000),
+        token: {
+          symbol: "ICP",
+        },
+        destination: {
+          text: accountId,
+        },
+      });
+      console.log(result);
+      return result;
+    }
   };
+
   return (
     <Container maxWidth="md">
       {props.loading ? (
@@ -46,7 +63,6 @@ export default function TweetList(props) {
         </Box>
       ) : (
         <>
-          <Button onClick={tipTweet}>Tip Test</Button>
           <List sx={{ width: "100%", bgcolor: "background.paper" }}>
             {tweets.map(([id, tweet, liked]) => {
               return (
@@ -118,6 +134,17 @@ export default function TweetList(props) {
                           </IconButton>
                         </Tooltip>
                       )}
+                      <Tooltip title="Tip!">
+                        <IconButton
+                          color="primary"
+                          onClick={() => {
+                            tipTweet(tweet.userAccountId);
+                          }}
+                          sx={{ padding: 0 }}
+                        >
+                          <VolunteerActivismIcon />
+                        </IconButton>
+                      </Tooltip>
                     </Grid>
                     <Grid item xs={12}>
                       <Divider variant="middle" component="li" />

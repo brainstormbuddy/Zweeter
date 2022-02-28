@@ -1,36 +1,6 @@
-type Zweeter = 
- service {
-   _constructTweetId: (principal, text) -> (text);
-   _constructTweetIdByText: (text, text) -> (text);
-   _getTweetById: (text) -> (opt Tweet) query;
-   _listTweets: (opt text) -> (vec record {
-                                     text;
-                                     Tweet;
-                                   }) query;
-   delTweet: (text) -> ();
-   delUser: () -> ();
-   dislikeTweet: (text, text) -> ();
-   getTweet: (text) -> (opt Tweet);
-   getUser: () -> (opt User);
-   getUserById: (text) -> (opt User) query;
-   likeTweet: (text, text) -> ();
-   listAllTweets: () -> (vec record {
-                               text;
-                               Tweet;
-                             });
-   listMyLikedTweets: () -> (vec record {
-                                   text;
-                                   LikedUserTweet;
-                                 });
-   listMyTweets: () -> (vec record {
-                              text;
-                              Tweet;
-                            });
-   setTweet: (text, Tweet) -> ();
-   setUser: (User) -> ();
- };
 type User = 
  record {
+   accountid: text;
    id: text;
    name: text;
  };
@@ -41,6 +11,7 @@ type Tweet =
    liked: int;
    postedAt: int;
    user: text;
+   userAccountId: text;
    userid: text;
  };
 type LikedUserTweet = 
@@ -48,4 +19,33 @@ type LikedUserTweet =
    tweetid: text;
    userid: text;
  };
-service : () -> Zweeter
+service : {
+  _constructTweetId: (principal, text) -> (text);
+  _constructTweetIdByText: (text, text) -> (text);
+  _getTweetById: (text) -> (opt Tweet) query;
+  _listTweets: (opt text) -> (vec record {
+                                    text;
+                                    Tweet;
+                                  }) query;
+  delTweet: (text) -> ();
+  delUser: () -> ();
+  dislikeTweet: (text, text) -> ();
+  getTweet: (text) -> (opt Tweet);
+  getUser: () -> (opt User);
+  getUserById: (text) -> (opt User) query;
+  likeTweet: (text, text) -> ();
+  listAllTweets: () -> (vec record {
+                              text;
+                              Tweet;
+                            });
+  listMyLikedTweets: () -> (vec record {
+                                  text;
+                                  LikedUserTweet;
+                                });
+  listMyTweets: () -> (vec record {
+                             text;
+                             Tweet;
+                           });
+  setTweet: (text, Tweet) -> ();
+  setUser: (User) -> ();
+}

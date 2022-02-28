@@ -7,9 +7,10 @@ import Authenticate from "./Pages/authenticate";
 import { useAuthClient } from "./hooks";
 import { AuthClient } from "@dfinity/auth-client";
 import { _SERVICE } from "../../declarations/zweeter/zweeter.did";
-import { _SERVICE as _INVOICESERVICE } from "../../invoice_canister/test/e2e/src/declarations/invoice/invoice.did";
+import { _SERVICE as _INVOICESERVICE } from "../../declarations/invoice/invoice.did";
 import { ActorSubclass } from "@dfinity/agent";
 import AllTweets from "./Pages/allTweets";
+import { Principal } from "@dfinity/principal";
 const theme = createTheme({
   palette: {
     primary: {
@@ -32,11 +33,15 @@ export const AppContext = React.createContext<{
   hasLoggedIn: boolean;
   actorName?: string;
   setName: (name: string) => void;
+  accountId: string;
+  setAccountId: (accountId: string) => void;
 }>({
   login: () => {},
   logout: () => {},
   hasLoggedIn: false,
   setName: (name: string) => {},
+  accountId: null,
+  setAccountId: (accountId: string) => {},
 });
 const App = () => {
   const {
@@ -49,6 +54,8 @@ const App = () => {
     actor,
     hasLoggedIn,
     setName,
+    accountId,
+    setAccountId,
     actorName,
     invoiceActor,
   } = useAuthClient();
@@ -64,6 +71,8 @@ const App = () => {
         actor,
         hasLoggedIn,
         setName,
+        accountId,
+        setAccountId,
         invoiceActor,
         actorName,
       }}

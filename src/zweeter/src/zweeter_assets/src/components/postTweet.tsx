@@ -6,15 +6,17 @@ import { AppContext } from "../App";
 
 export default function PostTweet(props) {
   const [tweetContent, setTweetContent] = useState("");
-  const { actor, actorName } = useContext(AppContext);
+  const { actor, actorName, accountId } = useContext(AppContext);
   async function handleClick() {
     let id = v4();
+    console.log(accountId);
     await actor?.setTweet(id, {
       id: id,
       postedAt: BigInt(Date.now()),
       content: tweetContent,
       user: actorName,
       userid: "",
+      userAccountId: accountId,
       liked: BigInt(0),
     });
     props.updateTweets();

@@ -18,14 +18,16 @@ import { AppContext } from "../App";
 
 export default function Authenticate() {
   const navigate = useNavigate();
-  const { hasLoggedIn, login, actorName, setName, actor } =
+  const { hasLoggedIn, login, actorName, setName, actor, invoiceActor } =
     useContext(AppContext);
   const [username, setUsername] = useState("");
 
-  const setUser = () => {
+  const setUser = async () => {
     if (username !== "") {
       const id = v4();
-      actor?.setUser({ name: username, id }).then(() => {
+      var accountId = await invoiceActor.get_account_id();
+      console.log(accountId);
+      actor?.setUser({ name: username, id, accountid: accountId }).then(() => {
         setName(username);
         navigate("/home");
       });
